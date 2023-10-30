@@ -27,6 +27,18 @@ export default function Home() {
                         />
                     );
                 })}
+
+                <div className="w-full flex gap-4 justify-center items-center">
+                    <button
+                        onClick={() => setSleds(initialState)}
+                        className="px-4 py-2 bg-red-500 rounded-full text-white"
+                    >
+                        VRATI
+                    </button>
+                    <button className="px-4 py-2 bg-red-500 rounded-full text-white">
+                        SACUVAJ
+                    </button>
+                </div>
             </SledContext.Provider>
         </>
     );

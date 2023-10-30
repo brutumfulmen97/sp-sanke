@@ -7,17 +7,20 @@ import { SledContext } from "@/context/sled-context";
 import { useContext } from "react";
 
 const Charity = ({ id, parent }: any) => {
-    const [value, setValue] = useState(0);
     const containers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
     const { sleds, setSleds } = useContext(SledContext);
+
     const draggableMarkup = (
         <Draggable id={id}>
-            <div className="w-[150px] text-center bg-green-300">Drag Me</div>
+            <div className=" text-center bg-green-300">Drag Me</div>
         </Draggable>
     );
+
+    console.log(sleds);
+
     return (
-        <div>
-            <div className="flex w-[1500px] border-2 border-black">
+        <div className="w-full">
+            <div className="flex justify-between border-2 border-black">
                 <DndContext
                     onDragEnd={handleDragEnd}
                     modifiers={[restrictToHorizontalAxis]}
@@ -26,7 +29,7 @@ const Charity = ({ id, parent }: any) => {
                         <Droppable
                             key={id}
                             id={id}
-                            className="w-[150px] text-center border-2"
+                            className="text-center border-2"
                         >
                             {parent === id ? draggableMarkup : "Drop here"}
                         </Droppable>
@@ -38,7 +41,7 @@ const Charity = ({ id, parent }: any) => {
                     style: "currency",
                     currency: "HUF",
                     maximumFractionDigits: 0,
-                }).format(value)}
+                }).format(+parent * 250000)}
             </h2>
         </div>
     );
@@ -54,9 +57,6 @@ const Charity = ({ id, parent }: any) => {
         });
 
         setSleds(newSleds);
-        if (over) {
-            setValue(+over.id * 250000);
-        }
     }
 };
 
