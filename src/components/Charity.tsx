@@ -3,7 +3,7 @@ import { restrictToHorizontalAxis } from "@dnd-kit/modifiers";
 import Draggable from "@/components/Draggable";
 import Droppable from "@/components/Droppable";
 import { SledContext } from "@/context/sled-context";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { TotalContext } from "@/context/total-context";
 
 const Charity = ({ id, parent, value }: any) => {
@@ -25,28 +25,36 @@ const Charity = ({ id, parent, value }: any) => {
     const { sleds, setSleds } = useContext(SledContext);
     const { total, setTotal } = useContext(TotalContext);
     const [style, setStyle] = useState({
+        background: "lightgreen",
         cursor: "grab",
     });
 
     const draggableMarkup = (
         <Draggable id={id}>
-            <div className=" text-center bg-green-300" style={style}>
+            <div className=" text-center " style={style}>
                 Drag Me
             </div>
         </Draggable>
     );
 
+    useEffect(() => {
+        if (+total < 3_000_000 || value !== 0) {
+            setStyle({
+                background: "lightgreen",
+                cursor: "grab",
+            });
+        } else {
+            setStyle({
+                background: "lightcoral",
+                cursor: "not-allowed",
+            });
+        }
+    }, [total, value]);
+
     return (
         <div className="w-full">
             <div className="flex justify-between border-2 border-black">
                 <DndContext
-                    onDragStart={() => {
-                        if (+total === 3_000_000 && value === 0) {
-                            setStyle({
-                                cursor: "not-allowed",
-                            });
-                        }
-                    }}
                     onDragEnd={handleDragEnd}
                     modifiers={[restrictToHorizontalAxis]}
                 >
@@ -77,12 +85,12 @@ const Charity = ({ id, parent, value }: any) => {
         let newSleds;
         const newTotal = +total - parent * 250000;
 
-        let flag = false;
+        let isInvalid = false;
 
         newSleds = sleds.map((sled: { id: number; parent: string }) => {
             if (id === sled.id) {
                 if (newTotal + over.id * 250000 > 3_000_000) {
-                    flag = true;
+                    isInvalid = true;
                     return sled;
                 }
                 return {
@@ -95,7 +103,7 @@ const Charity = ({ id, parent, value }: any) => {
         });
 
         setSleds(newSleds);
-        if (!flag) {
+        if (!isInvalid) {
             setTotal(newTotal + over.id * 250000);
         }
     }
