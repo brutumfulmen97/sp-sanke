@@ -1,14 +1,29 @@
 import { DndContext } from "@dnd-kit/core";
 import { restrictToHorizontalAxis } from "@dnd-kit/modifiers";
-import { useState } from "react";
 import Draggable from "@/components/Draggable";
 import Droppable from "@/components/Droppable";
 import { SledContext } from "@/context/sled-context";
 import { useContext } from "react";
+import { TotalContext } from "@/context/total-context";
 
 const Charity = ({ id, parent }: any) => {
-    const containers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
+    const containers = [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+    ];
     const { sleds, setSleds } = useContext(SledContext);
+    const { total, setTotal } = useContext(TotalContext);
 
     const draggableMarkup = (
         <Draggable id={id}>
@@ -48,15 +63,23 @@ const Charity = ({ id, parent }: any) => {
 
     function handleDragEnd(event: any) {
         const { over } = event;
+        console.log(over, over.id);
+
+        if (+total + +over.id * 250000 > 3_000_000) return;
 
         const newSleds = sleds.map((sled: { id: number; parent: string }) => {
             if (id === sled.id) {
-                return { ...sled, parent: over ? over.id : null };
+                return {
+                    ...sled,
+                    parent: over ? over.id : null,
+                    value: over ? +over.id * 250000 : 0,
+                };
             }
             return sled;
         });
 
         setSleds(newSleds);
+        setTotal((prev: any) => prev + over.id * 250000);
     }
 };
 
