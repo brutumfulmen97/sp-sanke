@@ -17,7 +17,7 @@ export default function Home() {
     const [total, setTotal] = useState(0);
 
     return (
-        <>
+        <main className="p-4">
             {/*@ts-ignore*/}
             <TotalContext.Provider value={{ total, setTotal }}>
                 {/*@ts-ignore*/}
@@ -47,9 +47,10 @@ export default function Home() {
                             SACUVAJ
                         </button>
                     </div>
-                    {total}
+                    <h1>TOTAL: {total} Ft</h1>
+                    <h2>LEFT: {3_000_000 - total} Ft</h2>
                 </SledContext.Provider>
             </TotalContext.Provider>
-        </>
+        </main>
     );
 }
