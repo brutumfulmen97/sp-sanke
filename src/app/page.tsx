@@ -8,11 +8,11 @@ import { useState } from "react";
 
 export default function Home() {
     const [value, setValue] = useState(0);
-    const containers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
-    const [parent, setParent] = useState(null);
+    const containers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
+    const [parent, setParent] = useState("0");
     const draggableMarkup = (
         <Draggable id="draggable">
-            <div className="w-[150px] text-center">Drag Me</div>
+            <div className="w-[150px] text-center bg-green-300">Drag Me</div>
         </Draggable>
     );
 
@@ -23,11 +23,7 @@ export default function Home() {
                     onDragEnd={handleDragEnd}
                     modifiers={[restrictToHorizontalAxis]}
                 >
-                    {parent === null ? draggableMarkup : null}
-
                     {containers.map((id) => (
-                        // We updated the Droppable component so it would accept an `id`
-                        // prop and pass it to `useDroppable`
                         <Droppable
                             key={id}
                             id={id}
@@ -38,7 +34,13 @@ export default function Home() {
                     ))}
                 </DndContext>
             </div>
-            <h2>{value}ft</h2>
+            <h2>
+                {new Intl.NumberFormat("hu-HU", {
+                    style: "currency",
+                    currency: "HUF",
+                    maximumFractionDigits: 0,
+                }).format(value)}
+            </h2>
         </>
     );
 
@@ -47,7 +49,7 @@ export default function Home() {
 
         setParent(over ? over.id : null);
         if (over) {
-            setValue(+over.id * 25000);
+            setValue(+over.id * 250000);
         }
     }
 }
