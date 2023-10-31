@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Loader2, Trash2 } from "lucide-react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
@@ -37,6 +37,10 @@ export default function Statistic() {
     });
     const [sortDirection, setSortDirection] = useState<string>("desc");
 
+    const fetchDonationsCallback = useCallback(
+        () => fetchDonations(page, sortDirection),
+        [page, sortDirection]
+    );
     const fetchDonations = async (page = 1, sortDirection = "desc") => {
         try {
             const res = await fetch(
@@ -58,7 +62,7 @@ export default function Statistic() {
 
     const { isPending, isError, data, error, refetch } = useQuery({
         queryKey: ["donations", page, sortDirection],
-        queryFn: () => fetchDonations(page, sortDirection),
+        queryFn: () => fetchDonationsCallback(),
     });
 
     const handleDelete = async (index: number) => {
@@ -107,23 +111,39 @@ export default function Statistic() {
         },
     });
 
+    const charityAMemo = useMemo(
+        () =>
+            ((totals.charityATotal / (numOfRecords * 3_000_000)) * 100).toFixed(
+                2
+            ),
+        [totals, numOfRecords]
+    );
+    const charityBMemo = useMemo(
+        () =>
+            ((totals.charityBTotal / (numOfRecords * 3_000_000)) * 100).toFixed(
+                2
+            ),
+        [totals, numOfRecords]
+    );
+    const charityCMemo = useMemo(
+        () =>
+            ((totals.charityCTotal / (numOfRecords * 3_000_000)) * 100).toFixed(
+                2
+            ),
+        [totals, numOfRecords]
+    );
+    const charityDMemo = useMemo(
+        () =>
+            ((totals.charityDTotal / (numOfRecords * 3_000_000)) * 100).toFixed(
+                2
+            ),
+        [totals, numOfRecords]
+    );
     const percents = {
-        charityA: (
-            (totals.charityATotal / (numOfRecords * 3_000_000)) *
-            100
-        ).toFixed(2),
-        charityB: (
-            (totals.charityBTotal / (numOfRecords * 3_000_000)) *
-            100
-        ).toFixed(2),
-        charityC: (
-            (totals.charityCTotal / (numOfRecords * 3_000_000)) *
-            100
-        ).toFixed(2),
-        charityD: (
-            (totals.charityDTotal / (numOfRecords * 3_000_000)) *
-            100
-        ).toFixed(2),
+        charityA: charityAMemo,
+        charityB: charityBMemo,
+        charityC: charityCMemo,
+        charityD: charityDMemo,
     };
 
     return (
