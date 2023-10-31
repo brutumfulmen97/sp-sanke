@@ -1,4 +1,8 @@
-export default function LatestRecord({ latestRecord }: any) {
+export default function LatestRecord({
+    latestRecord,
+}: {
+    latestRecord: string[];
+}) {
     return (
         <div className="flex gap-2 flex-wrap items-center justify-center mb-4">
             <h2 className="font-semibold">LATEST DONATION:</h2>

@@ -150,25 +150,25 @@ export async function GET(req: NextRequest) {
     const data = response.data.valueRanges[0].values;
 
     const charityATotal = response.data.valueRanges[1].values?.reduce(
-        (acc: number, curr: any) => {
+        (acc: number, curr: number) => {
             return acc + +curr;
         },
         0
     );
     const charityBTotal = response.data.valueRanges[2].values?.reduce(
-        (acc: number, curr: any) => {
+        (acc: number, curr: number) => {
             return acc + +curr;
         },
         0
     );
     const charityCTotal = response.data.valueRanges[3].values?.reduce(
-        (acc: number, curr: any) => {
+        (acc: number, curr: number) => {
             return acc + +curr;
         },
         0
     );
     const charityDTotal = response.data.valueRanges[4].values?.reduce(
-        (acc: number, curr: any) => {
+        (acc: number, curr: number) => {
             return acc + +curr;
         },
         0

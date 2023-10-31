@@ -10,25 +10,39 @@ import toast, { Toaster } from "react-hot-toast";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
+type FetchedData = {
+    data: string[][];
+    numPages: number;
+    numOfRecords: number;
+    latestRecord: string[];
+    totals: Record<string, number>;
+};
+
 export default function Statistic() {
-    const [page, setPage] = useState(1);
-    const [numPages, setNumPages] = useState(0);
-    const [numOfRecords, setNumOfRecords] = useState(0);
-    const [latestRecord, setLatestRecord] = useState(["", "", "", "", ""]);
-    const [totals, setTotals] = useState({
+    const [page, setPage] = useState<number>(1);
+    const [numPages, setNumPages] = useState<number>(0);
+    const [numOfRecords, setNumOfRecords] = useState<number>(0);
+    const [latestRecord, setLatestRecord] = useState<string[]>([
+        "",
+        "",
+        "",
+        "",
+        "",
+    ]);
+    const [totals, setTotals] = useState<Record<string, number>>({
         charityATotal: 0,
         charityBTotal: 0,
         charityCTotal: 0,
         charityDTotal: 0,
     });
-    const [sortDirection, setSortDirection] = useState("desc");
+    const [sortDirection, setSortDirection] = useState<string>("desc");
 
     const fetchDonations = async (page = 1, sortDirection = "desc") => {
         try {
             const res = await fetch(
                 `/api/sheets?page=${page}&sortDirection=${sortDirection}`
             );
-            const data = await res.json();
+            const data: FetchedData = await res.json();
             if (!res.ok) throw new Error("Something went wrong");
             setNumPages(data.numPages);
             setNumOfRecords(data.numOfRecords);
@@ -121,7 +135,7 @@ export default function Statistic() {
                 </div>
             )}
             {isError && <div>{error.message}</div>}
-            {!isPending && !isError && data.length === 0 && (
+            {!isPending && !isError && data?.length === 0 && (
                 <div>No data yet</div>
             )}
             {!isPending && !isError && data && (
@@ -175,11 +189,11 @@ export default function Statistic() {
                             </tr>
                         </thead>
                         <tbody>
-                            {data.map((item: any, index: number) => {
+                            {data.map((item, index: number) => {
                                 if (item.length === 0) return null;
                                 return (
                                     <tr key={index}>
-                                        {item.map((row: any, idx: number) => {
+                                        {item.map((row, idx: number) => {
                                             return isDeleting &&
                                                 variables === index ? (
                                                 <td
@@ -192,7 +206,7 @@ export default function Statistic() {
                                                 <td key={idx}>{row}</td>
                                             );
                                         })}
-                                        {isError && (
+                                        {isDeleteError && (
                                             <li style={{ color: "red" }}>
                                                 {variables}
                                                 <button

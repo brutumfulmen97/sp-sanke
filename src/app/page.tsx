@@ -3,7 +3,7 @@
 import Charity from "@/components/Charity";
 import { SledContext } from "@/context/sled-context";
 import { TotalContext } from "@/context/total-context";
-import { useState } from "react";
+import { ErrorInfo, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 
 const initialState = [
@@ -14,11 +14,11 @@ const initialState = [
 ];
 
 export default function Home() {
-    const [sleds, setSleds] = useState(initialState);
-    const [total, setTotal] = useState(0);
+    const [sleds, setSleds] = useState<Sled[]>(initialState);
+    const [total, setTotal] = useState<number>(0);
 
     async function handleSubmit() {
-        if (total < 3_000_000) return alert("Nije dovoljno novca");
+        if (total < 3_000_000) return toast.error("Total must be 3.000.000 Ft");
 
         const data = {
             charityA: sleds[0].value,
@@ -50,9 +50,7 @@ export default function Home() {
     return (
         <main className="md:p-4">
             <Toaster />
-            {/*@ts-ignore*/}
             <TotalContext.Provider value={{ total, setTotal }}>
-                {/*@ts-ignore*/}
                 <SledContext.Provider value={{ sleds, setSleds }}>
                     {sleds.map((sled) => {
                         return (

@@ -6,22 +6,16 @@ import { SledContext } from "@/context/sled-context";
 import { useContext, useEffect, useState } from "react";
 import { TotalContext } from "@/context/total-context";
 
-const Charity = ({ id, parent, value }: any) => {
-    const containers = [
-        "0",
-        "1",
-        "2",
-        "3",
-        "4",
-        "5",
-        "6",
-        "7",
-        "8",
-        "9",
-        "10",
-        "11",
-        "12",
-    ];
+const Charity = ({
+    id,
+    parent,
+    value,
+}: {
+    id: number;
+    parent: string;
+    value: number;
+}) => {
+    const containers = Array.from({ length: 13 }, (_, i) => i.toString());
     const { sleds, setSleds } = useContext(SledContext);
     const { total, setTotal } = useContext(TotalContext);
     const [style, setStyle] = useState({
@@ -84,15 +78,21 @@ const Charity = ({ id, parent, value }: any) => {
         const { over } = event;
 
         let newSleds;
-        const newTotal = +total - parent * 250000;
+        const newTotal = +total - +parent * 250000;
 
-        let isInvalid = false;
-
+        let newValue;
         newSleds = sleds.map((sled: { id: number; parent: string }) => {
             if (id === sled.id) {
                 if (newTotal + over.id * 250000 > 3_000_000) {
-                    isInvalid = true;
-                    return sled;
+                    const maxParent = Math.floor(
+                        (3_000_000 - newTotal) / 250000
+                    );
+                    newValue = maxParent * 250000;
+                    return {
+                        ...sled,
+                        parent: over ? maxParent.toString() : null,
+                        value: newValue,
+                    };
                 }
                 return {
                     ...sled,
@@ -103,10 +103,8 @@ const Charity = ({ id, parent, value }: any) => {
             return sled;
         });
 
-        setSleds(newSleds);
-        if (!isInvalid) {
-            setTotal(newTotal + over.id * 250000);
-        }
+        setSleds(newSleds as Sled[]);
+        setTotal(newTotal + (newValue ?? over.id * 250000));
     }
 };
 

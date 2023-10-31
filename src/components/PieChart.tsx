@@ -1,6 +1,12 @@
 import { Pie } from "react-chartjs-2";
 
-export default function PieChart({ percents, totals }: any) {
+export default function PieChart({
+    percents,
+    totals,
+}: {
+    percents: Record<string, string>;
+    totals: Record<string, number>;
+}) {
     // const values = Object.values(data);
     // console.log(values);
     const chartData = {
