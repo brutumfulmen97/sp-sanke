@@ -15,11 +15,13 @@
     "@emotion/styled": "^11.11.0",
     "@mui/x-charts": "^6.0.0-alpha.17",
     "@tanstack/react-query": "^5.4.3",
+    "chart.js": "^4.4.0",
     "encoding": "^0.1.13",
     "googleapis": "^128.0.0",
     "lucide-react": "^0.291.0",
     "next": "14.0.0",
     "react": "^18",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "^18"
   },
   "devDependencies": {

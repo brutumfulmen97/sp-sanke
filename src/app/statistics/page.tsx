@@ -5,6 +5,11 @@ import { useQuery } from "@tanstack/react-query";
 import { PieChart, pieArcClasses } from "@mui/x-charts/PieChart";
 import { Loader2, Trash2 } from "lucide-react";
 
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { Pie } from "react-chartjs-2";
+
+ChartJS.register(ArcElement, Tooltip, Legend);
+
 export default function Statistic() {
     const [page, setPage] = useState(1);
     const [numPages, setNumPages] = useState(0);
@@ -40,6 +45,46 @@ export default function Statistic() {
         queryFn: () => fetchDonations(page, sortDirection),
         refetchInterval: 10000,
     });
+
+    const chartData = {
+        labels: ["A", "B", "C", "D"],
+        datasets: [
+            {
+                label: "Precent: ",
+                data: [
+                    (
+                        (totals.charityATotal / (numOfRecords * 3_000_000)) *
+                        100
+                    ).toFixed(2),
+                    (
+                        (totals.charityBTotal / (numOfRecords * 3_000_000)) *
+                        100
+                    ).toFixed(2),
+                    (
+                        (totals.charityCTotal / (numOfRecords * 3_000_000)) *
+                        100
+                    ).toFixed(2),
+                    (
+                        (totals.charityDTotal / (numOfRecords * 3_000_000)) *
+                        100
+                    ).toFixed(2),
+                ],
+                backgroundColor: [
+                    "rgba(255, 99, 132, 0.2)",
+                    "rgba(54, 162, 235, 0.2)",
+                    "rgba(255, 206, 86, 0.2)",
+                    "rgba(75, 192, 192, 0.2)",
+                ],
+                borderColor: [
+                    "rgba(255, 99, 132, 1)",
+                    "rgba(54, 162, 235, 1)",
+                    "rgba(255, 206, 86, 1)",
+                    "rgba(75, 192, 192, 1)",
+                ],
+                borderWidth: 1,
+            },
+        ],
+    };
 
     return (
         <>
@@ -88,7 +133,8 @@ export default function Statistic() {
                         <span className="font-medium">{numOfRecords}</span>
                     </h1>
                     <div className="mt-4">
-                        <PieChart
+                        <Pie data={chartData} />
+                        {/* <PieChart}
                             series={[
                                 {
                                     data: [
@@ -150,7 +196,7 @@ export default function Statistic() {
                                     fill: "gray",
                                 },
                             }}
-                        />
+                        /> */}
                     </div>
                     <hr />
                     <div className="flex gap-2">
