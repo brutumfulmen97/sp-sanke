@@ -63,6 +63,7 @@ export default function Statistic() {
     const { isPending, isError, data, error, refetch } = useQuery({
         queryKey: ["donations", page, sortDirection],
         queryFn: () => fetchDonationsCallback(),
+        refetchInterval: 10_000,
     });
 
     const handleDelete = async (index: number) => {
