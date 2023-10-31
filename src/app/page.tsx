@@ -36,6 +36,9 @@ export default function Home() {
             });
 
             if (!res.ok) throw new Error("Something went wrong");
+
+            setSleds(initialState);
+            setTotal(0);
         } catch (e: any) {
             console.log(e.message);
         }
@@ -64,13 +67,15 @@ export default function Home() {
                                 setSleds(initialState);
                                 setTotal(0);
                             }}
-                            className="px-4 py-2 bg-red-500 rounded-full text-white"
+                            disabled={total === 0}
+                            className="px-4 py-2 bg-red-500 rounded-full text-white disabled:opacity-30"
                         >
                             VRATI
                         </button>
                         <button
-                            className="px-4 py-2 bg-red-500 rounded-full text-white"
+                            className="px-4 py-2 bg-blue-500 rounded-full text-white disabled:opacity-30"
                             onClick={handleSubmit}
+                            disabled={total < 3_000_000}
                         >
                             SACUVAJ
                         </button>
