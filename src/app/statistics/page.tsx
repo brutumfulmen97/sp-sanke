@@ -2,9 +2,7 @@
 
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { PieChart, pieArcClasses } from "@mui/x-charts/PieChart";
 import { Loader2, Trash2 } from "lucide-react";
-
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Pie } from "react-chartjs-2";
 
@@ -40,34 +38,45 @@ export default function Statistic() {
         }
     };
 
-    const { isPending, isError, data, error } = useQuery({
+    const { isPending, isError, data, error, refetch } = useQuery({
         queryKey: ["donations", page, sortDirection],
         queryFn: () => fetchDonations(page, sortDirection),
-        refetchInterval: 10000,
     });
 
+    const percents = {
+        charityA: (
+            (totals.charityATotal / (numOfRecords * 3_000_000)) *
+            100
+        ).toFixed(2),
+        charityB: (
+            (totals.charityBTotal / (numOfRecords * 3_000_000)) *
+            100
+        ).toFixed(2),
+        charityC: (
+            (totals.charityCTotal / (numOfRecords * 3_000_000)) *
+            100
+        ).toFixed(2),
+        charityD: (
+            (totals.charityDTotal / (numOfRecords * 3_000_000)) *
+            100
+        ).toFixed(2),
+    };
+
     const chartData = {
-        labels: ["A", "B", "C", "D"],
+        labels: [
+            `A: ${percents.charityA}%`,
+            `B: ${percents.charityB}%`,
+            `C: ${percents.charityC}%`,
+            `D: ${percents.charityD}%`,
+        ],
         datasets: [
             {
-                label: "Precent: ",
+                label: "Amount: ",
                 data: [
-                    (
-                        (totals.charityATotal / (numOfRecords * 3_000_000)) *
-                        100
-                    ).toFixed(2),
-                    (
-                        (totals.charityBTotal / (numOfRecords * 3_000_000)) *
-                        100
-                    ).toFixed(2),
-                    (
-                        (totals.charityCTotal / (numOfRecords * 3_000_000)) *
-                        100
-                    ).toFixed(2),
-                    (
-                        (totals.charityDTotal / (numOfRecords * 3_000_000)) *
-                        100
-                    ).toFixed(2),
+                    totals.charityATotal,
+                    totals.charityBTotal,
+                    totals.charityCTotal,
+                    totals.charityDTotal,
                 ],
                 backgroundColor: [
                     "rgba(255, 99, 132, 0.2)",
@@ -95,7 +104,7 @@ export default function Statistic() {
             )}
             {isError && <div>{error.message}</div>}
             {!isPending && !isError && data && (
-                <div className="w-full p-4 flex flex-col items-center justify-between">
+                <div className="w-full p-4 flex flex-col items-center justify-between text-xs md:text-md">
                     {latestRecord && (
                         <div className="flex gap-2 flex-wrap items-center justify-center mb-4">
                             <h2 className="font-semibold">LATEST DONATION:</h2>
@@ -134,75 +143,10 @@ export default function Statistic() {
                     </h1>
                     <div className="mt-4">
                         <Pie data={chartData} />
-                        {/* <PieChart}
-                            series={[
-                                {
-                                    data: [
-                                        {
-                                            id: 0,
-                                            value: totals.charityATotal,
-                                            label: `A: ${(
-                                                (totals.charityATotal /
-                                                    (numOfRecords *
-                                                        3_000_000)) *
-                                                100
-                                            ).toFixed(2)}%`,
-                                        },
-                                        {
-                                            id: 1,
-                                            value: totals.charityBTotal,
-                                            label: `B: ${(
-                                                (totals.charityBTotal /
-                                                    (numOfRecords *
-                                                        3_000_000)) *
-                                                100
-                                            ).toFixed(2)}%`,
-                                        },
-                                        {
-                                            id: 2,
-                                            value: totals.charityCTotal,
-                                            label: `C: ${(
-                                                (totals.charityCTotal /
-                                                    (numOfRecords *
-                                                        3_000_000)) *
-                                                100
-                                            ).toFixed(2)}%`,
-                                        },
-                                        {
-                                            id: 3,
-                                            value: totals.charityDTotal,
-                                            label: `D: ${(
-                                                (totals.charityDTotal /
-                                                    (numOfRecords *
-                                                        3_000_000)) *
-                                                100
-                                            ).toFixed(2)}%`,
-                                        },
-                                    ],
-                                    highlightScope: {
-                                        faded: "global",
-                                        highlighted: "item",
-                                    },
-                                    faded: {
-                                        innerRadius: 30,
-                                        additionalRadius: -30,
-                                    },
-                                },
-                            ]}
-                            width={400}
-                            height={200}
-                            sx={{
-                                [`& .${pieArcClasses.faded}`]: {
-                                    fill: "gray",
-                                },
-                            }}
-                        /> */}
                     </div>
                     <hr />
                     <div className="flex gap-2">
-                        <p className="font-bold">
-                            Total number of donations per charity:
-                        </p>
+                        <p className="font-bold">Amount donated per charity:</p>
                         <p>A: {totals.charityATotal}</p>
                         <p>B: {totals.charityBTotal}</p>
                         <p>C: {totals.charityCTotal}</p>
@@ -226,7 +170,7 @@ export default function Statistic() {
                         <option value="asc">ASCENDING</option>
                         <option value="desc">DESCENDING</option>
                     </select>
-                    <table className="w-full md:w-3/4 text-center">
+                    <table className="w-full md:w-3/4 text-center text-xs md:text-md">
                         <thead>
                             <tr>
                                 <th>A</th>
@@ -290,12 +234,13 @@ export default function Statistic() {
                                                         const data =
                                                             await res.json();
                                                         console.log(data);
+                                                        refetch();
                                                     } catch (err) {
                                                         console.log(err);
                                                     }
                                                 }}
                                             >
-                                                <Trash2 className="w-6 h-6" />
+                                                <Trash2 className="w-3 h-3 md:w-6 md:h-6" />
                                             </button>
                                         </td>
                                     </tr>
