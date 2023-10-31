@@ -27,6 +27,8 @@ try {
 const sheetId = process.env.GOOGLE_SHEET_ID!;
 
 export async function POST(req: NextRequest) {
+    if (!sheet) return Response.json({ success: "false" }, { status: 500 });
+
     const reqBody = await req.text();
     const body = JSON.parse(reqBody);
 
@@ -37,8 +39,6 @@ export async function POST(req: NextRequest) {
     const ip = getUserIp(req);
 
     const createdAt = new Date().toISOString();
-
-    if (!sheet) return Response.json({ success: "false" }, { status: 500 });
 
     const res = await sheet.spreadsheets.values.get({
         spreadsheetId: process.env.GOOGLE_SHEET_ID!,
@@ -75,4 +75,110 @@ export async function POST(req: NextRequest) {
     });
 
     return Response.json({ success: "true" }, { status: 200 });
+}
+
+export async function GET(req: NextRequest) {
+    if (!sheet) return Response.json({ success: "false" }, { status: 500 });
+
+    const url = new URL(req.url);
+    console.log(url);
+    const page = url.searchParams.get("page") ?? 1;
+    const sortDirection = url.searchParams.get("sortDirection") ?? "desc";
+
+    const response1 = await sheet.spreadsheets.values.get({
+        spreadsheetId: process.env.GOOGLE_SHEET_ID!,
+        range: "Sheet1!A1:F",
+    });
+
+    if (!response1.data.values)
+        return Response.json({ success: "false" }, { status: 500 });
+
+    const numOfRecords = response1.data.values.length - 1;
+    const numPages = Math.ceil((numOfRecords - 1) / 10);
+    const latestRecord = response1.data.values[numOfRecords - 1];
+
+    if (numOfRecords === 0) {
+        return new Response(
+            JSON.stringify({
+                data: [],
+                numPages,
+                numOfRecords,
+                latestRecord,
+                totals: {
+                    shelfATotal: 0,
+                    shelfBTotal: 0,
+                    shelfCTotal: 0,
+                    shelfDTotal: 0,
+                },
+            })
+        );
+    }
+
+    let sortRange = "";
+    if (sortDirection === "asc") {
+        sortRange = `Sheet1!A${+page === 1 ? 2 : +page * 10 - 8}:F${
+            +page === 1 ? +page * 10 + 1 : +page * 10 + 1
+        }`;
+    } else {
+        sortRange = `Sheet1!A${
+            +page === 1
+                ? numOfRecords < 10
+                    ? 2
+                    : numOfRecords - 8
+                : numOfRecords - +page * 10 + 2 < 2
+                ? 2
+                : numOfRecords - +page * 10 + 2
+        }:F${+page === 1 ? numOfRecords + 1 : numOfRecords - +page * 10 + 11}`;
+    }
+
+    const response = await sheet.spreadsheets.values.batchGet({
+        spreadsheetId: process.env.GOOGLE_SHEET_ID!,
+        ranges: [
+            sortRange,
+            "Sheet1!A2:A",
+            "Sheet1!B2:B",
+            "Sheet1!C2:C",
+            "Sheet1!D2:D",
+        ],
+    });
+
+    if (!response.data.valueRanges)
+        return Response.json({ success: "false" }, { status: 500 });
+
+    const data = response.data.valueRanges[0].values;
+
+    const shelfATotal = response.data.valueRanges[1].values?.reduce(
+        (acc: number, curr: any) => {
+            return acc + +curr;
+        },
+        0
+    );
+    const shelfBTotal = response.data.valueRanges[2].values?.reduce(
+        (acc: number, curr: any) => {
+            return acc + +curr;
+        },
+        0
+    );
+    const shelfCTotal = response.data.valueRanges[3].values?.reduce(
+        (acc: number, curr: any) => {
+            return acc + +curr;
+        },
+        0
+    );
+    const shelfDTotal = response.data.valueRanges[4].values?.reduce(
+        (acc: number, curr: any) => {
+            return acc + +curr;
+        },
+        0
+    );
+
+    return new Response(
+        JSON.stringify({
+            data,
+            numPages,
+            numOfRecords,
+            latestRecord,
+            totals: { shelfATotal, shelfBTotal, shelfCTotal, shelfDTotal },
+        })
+    );
 }
