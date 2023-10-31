@@ -11,10 +11,10 @@ export default function Statistic() {
     const [numOfRecords, setNumOfRecords] = useState(0);
     const [latestRecord, setLatestRecord] = useState(["", "", "", "", ""]);
     const [totals, setTotals] = useState({
-        shelfATotal: 0,
-        shelfBTotal: 0,
-        shelfCTotal: 0,
-        shelfDTotal: 0,
+        charityATotal: 0,
+        charityBTotal: 0,
+        charityCTotal: 0,
+        charityDTotal: 0,
     });
     const [sortDirection, setSortDirection] = useState("desc");
 
@@ -56,19 +56,19 @@ export default function Statistic() {
                             <h2 className="font-semibold">LATEST DONATION:</h2>
                             <p>
                                 <span className="font-semibold">A:</span>{" "}
-                                {latestRecord[0]}
+                                {latestRecord[0]} Ft
                             </p>
                             <p>
                                 <span className="font-semibold">B:</span>{" "}
-                                {latestRecord[1]}
+                                {latestRecord[1]} Ft
                             </p>
                             <p>
                                 <span className="font-semibold">C:</span>{" "}
-                                {latestRecord[2]}
+                                {latestRecord[2]} Ft
                             </p>
                             <p>
                                 <span className="font-semibold">D:</span>{" "}
-                                {latestRecord[3]}
+                                {latestRecord[3]} Ft
                             </p>
                             <p>
                                 <span className="font-semibold">IP:</span>{" "}
@@ -94,37 +94,41 @@ export default function Statistic() {
                                     data: [
                                         {
                                             id: 0,
-                                            value: totals.shelfATotal,
+                                            value: totals.charityATotal,
                                             label: `A: ${(
-                                                (totals.shelfATotal /
-                                                    (numOfRecords * 12)) *
+                                                (totals.charityATotal /
+                                                    (numOfRecords *
+                                                        3_000_000)) *
                                                 100
                                             ).toFixed(2)}%`,
                                         },
                                         {
                                             id: 1,
-                                            value: totals.shelfBTotal,
+                                            value: totals.charityBTotal,
                                             label: `B: ${(
-                                                (totals.shelfBTotal /
-                                                    (numOfRecords * 12)) *
+                                                (totals.charityBTotal /
+                                                    (numOfRecords *
+                                                        3_000_000)) *
                                                 100
                                             ).toFixed(2)}%`,
                                         },
                                         {
                                             id: 2,
-                                            value: totals.shelfCTotal,
+                                            value: totals.charityCTotal,
                                             label: `C: ${(
-                                                (totals.shelfCTotal /
-                                                    (numOfRecords * 12)) *
+                                                (totals.charityCTotal /
+                                                    (numOfRecords *
+                                                        3_000_000)) *
                                                 100
                                             ).toFixed(2)}%`,
                                         },
                                         {
                                             id: 3,
-                                            value: totals.shelfDTotal,
+                                            value: totals.charityDTotal,
                                             label: `D: ${(
-                                                (totals.shelfDTotal /
-                                                    (numOfRecords * 12)) *
+                                                (totals.charityDTotal /
+                                                    (numOfRecords *
+                                                        3_000_000)) *
                                                 100
                                             ).toFixed(2)}%`,
                                         },
@@ -139,8 +143,8 @@ export default function Statistic() {
                                     },
                                 },
                             ]}
-                            width={300}
-                            height={150}
+                            width={400}
+                            height={200}
                             sx={{
                                 [`& .${pieArcClasses.faded}`]: {
                                     fill: "gray",
@@ -153,10 +157,10 @@ export default function Statistic() {
                         <p className="font-bold">
                             Total number of donations per charity:
                         </p>
-                        <p>A: {totals.shelfATotal}</p>
-                        <p>B: {totals.shelfBTotal}</p>
-                        <p>C: {totals.shelfCTotal}</p>
-                        <p>D: {totals.shelfDTotal}</p>
+                        <p>A: {totals.charityATotal}</p>
+                        <p>B: {totals.charityBTotal}</p>
+                        <p>C: {totals.charityCTotal}</p>
+                        <p>D: {totals.charityDTotal}</p>
                     </div>
                     <label htmlFor="sort" className="mt-6">
                         Sort by date:

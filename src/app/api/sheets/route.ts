@@ -81,12 +81,11 @@ export async function GET(req: NextRequest) {
     if (!sheet) return Response.json({ success: "false" }, { status: 500 });
 
     const url = new URL(req.url);
-    console.log(url);
     const page = url.searchParams.get("page") ?? 1;
     const sortDirection = url.searchParams.get("sortDirection") ?? "desc";
 
     const response1 = await sheet.spreadsheets.values.get({
-        spreadsheetId: process.env.GOOGLE_SHEET_ID!,
+        spreadsheetId: sheetId,
         range: "Sheet1!A1:F",
     });
 
@@ -105,10 +104,10 @@ export async function GET(req: NextRequest) {
                 numOfRecords,
                 latestRecord,
                 totals: {
-                    shelfATotal: 0,
-                    shelfBTotal: 0,
-                    shelfCTotal: 0,
-                    shelfDTotal: 0,
+                    charityfATotal: 0,
+                    charityfBTotal: 0,
+                    charityfCTotal: 0,
+                    charityfDTotal: 0,
                 },
             })
         );
@@ -132,7 +131,7 @@ export async function GET(req: NextRequest) {
     }
 
     const response = await sheet.spreadsheets.values.batchGet({
-        spreadsheetId: process.env.GOOGLE_SHEET_ID!,
+        spreadsheetId: sheetId,
         ranges: [
             sortRange,
             "Sheet1!A2:A",
@@ -147,25 +146,25 @@ export async function GET(req: NextRequest) {
 
     const data = response.data.valueRanges[0].values;
 
-    const shelfATotal = response.data.valueRanges[1].values?.reduce(
+    const charityATotal = response.data.valueRanges[1].values?.reduce(
         (acc: number, curr: any) => {
             return acc + +curr;
         },
         0
     );
-    const shelfBTotal = response.data.valueRanges[2].values?.reduce(
+    const charityBTotal = response.data.valueRanges[2].values?.reduce(
         (acc: number, curr: any) => {
             return acc + +curr;
         },
         0
     );
-    const shelfCTotal = response.data.valueRanges[3].values?.reduce(
+    const charityCTotal = response.data.valueRanges[3].values?.reduce(
         (acc: number, curr: any) => {
             return acc + +curr;
         },
         0
     );
-    const shelfDTotal = response.data.valueRanges[4].values?.reduce(
+    const charityDTotal = response.data.valueRanges[4].values?.reduce(
         (acc: number, curr: any) => {
             return acc + +curr;
         },
@@ -178,7 +177,12 @@ export async function GET(req: NextRequest) {
             numPages,
             numOfRecords,
             latestRecord,
-            totals: { shelfATotal, shelfBTotal, shelfCTotal, shelfDTotal },
+            totals: {
+                charityATotal,
+                charityBTotal,
+                charityCTotal,
+                charityDTotal,
+            },
         })
     );
 }
