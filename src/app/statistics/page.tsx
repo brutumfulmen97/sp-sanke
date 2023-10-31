@@ -1,11 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Loader2, Trash2 } from "lucide-react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import PieChart from "@/components/PieChart";
 import LatestRecord from "@/components/LatestRecord";
+import toast, { Toaster } from "react-hot-toast";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -28,13 +29,15 @@ export default function Statistic() {
                 `/api/sheets?page=${page}&sortDirection=${sortDirection}`
             );
             const data = await res.json();
+            if (!res.ok) throw new Error("Something went wrong");
             setNumPages(data.numPages);
             setNumOfRecords(data.numOfRecords);
             setLatestRecord(data.latestRecord);
             setTotals(data.totals);
             if (sortDirection === "desc") return data.data.reverse();
             return data.data;
-        } catch (err) {
+        } catch (err: any) {
+            toast.error(err.message);
             console.error(err);
         }
     };
@@ -65,12 +68,30 @@ export default function Statistic() {
                 }),
             });
             const data = await res.json();
-            console.log(data);
+            if (!res.ok) throw new Error(data.message);
+            toast.success("Successfully deleted");
             refetch();
-        } catch (err) {
+        } catch (err: any) {
+            toast.error(err.message);
             console.log(err);
         }
     };
+
+    const queryClient = useQueryClient();
+
+    const {
+        isPending: isDeleting,
+        mutate: deleteRecord,
+        variables,
+        isError: isDeleteError,
+    } = useMutation({
+        mutationFn: handleDelete,
+        onSettled: async () => {
+            return await queryClient.invalidateQueries({
+                queryKey: ["donations"],
+            });
+        },
+    });
 
     const percents = {
         charityA: (
@@ -93,12 +114,16 @@ export default function Statistic() {
 
     return (
         <>
+            <Toaster />
             {isPending && (
                 <div className="w-full h-screen grid place-content-center">
                     <Loader2 className="animate-spin w-16 h-16" />
                 </div>
             )}
             {isError && <div>{error.message}</div>}
+            {!isPending && !isError && data.length === 0 && (
+                <div>No data yet</div>
+            )}
             {!isPending && !isError && data && (
                 <div className="w-full p-4 flex flex-col items-center justify-between text-xs md:text-md">
                     {latestRecord && (
@@ -155,12 +180,34 @@ export default function Statistic() {
                                 return (
                                     <tr key={index}>
                                         {item.map((row: any, idx: number) => {
-                                            return <td key={idx}>{row}</td>;
+                                            return isDeleting &&
+                                                variables === index ? (
+                                                <td
+                                                    key={idx}
+                                                    className="opacitiy-50 scale-x-0 transition-all duration-300"
+                                                >
+                                                    {row}
+                                                </td>
+                                            ) : (
+                                                <td key={idx}>{row}</td>
+                                            );
                                         })}
+                                        {isError && (
+                                            <li style={{ color: "red" }}>
+                                                {variables}
+                                                <button
+                                                    onClick={() =>
+                                                        deleteRecord(variables!)
+                                                    }
+                                                >
+                                                    Retry
+                                                </button>
+                                            </li>
+                                        )}
                                         <td>
                                             <button
                                                 onClick={() =>
-                                                    handleDelete(index)
+                                                    deleteRecord(index)
                                                 }
                                             >
                                                 <Trash2 className="w-3 h-3 md:w-6 md:h-6" />

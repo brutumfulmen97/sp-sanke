@@ -4,6 +4,7 @@ import Charity from "@/components/Charity";
 import { SledContext } from "@/context/sled-context";
 import { TotalContext } from "@/context/total-context";
 import { useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 
 const initialState = [
     { id: 1, parent: "0", value: 0 },
@@ -35,17 +36,20 @@ export default function Home() {
                 },
             });
 
+            if (res.status === 425) throw new Error("Wait 10 minutes");
             if (!res.ok) throw new Error("Something went wrong");
-
             setSleds(initialState);
             setTotal(0);
+            toast.success("Successfully saved");
         } catch (e: any) {
+            toast.error(e.message);
             console.log(e.message);
         }
     }
 
     return (
         <main className="md:p-4">
+            <Toaster />
             {/*@ts-ignore*/}
             <TotalContext.Provider value={{ total, setTotal }}>
                 {/*@ts-ignore*/}
