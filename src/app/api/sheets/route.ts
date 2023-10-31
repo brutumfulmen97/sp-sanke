@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
     const reqBody = await req.text();
     const body = JSON.parse(reqBody);
 
-    if (!body) return { status: 400, body: "No body provided" };
+    if (!body) return Response.json({ success: "false" }, { status: 500 });
 
     const { charityA, charityB, charityC, charityD } = body;
 
@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
 
     const createdAt = new Date().toISOString();
 
-    if (!sheet) return { status: 500, body: "Sheet not initialized" };
+    if (!sheet) return Response.json({ success: "false" }, { status: 500 });
 
     await sheet.spreadsheets.values.append({
         spreadsheetId: sheetId,
