@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Loader2, Trash2 } from "lucide-react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import PieChart from "@/components/PieChart";
+import LatestRecord from "@/components/LatestRecord";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -43,6 +44,34 @@ export default function Statistic() {
         queryFn: () => fetchDonations(page, sortDirection),
     });
 
+    const handleDelete = async (index: number) => {
+        let rowNumber;
+        if (sortDirection === "desc") {
+            rowNumber =
+                page === 1
+                    ? numOfRecords - index + 1
+                    : numOfRecords - page * 10 + (10 - index) + 1;
+        } else {
+            rowNumber = page === 1 ? index + 2 : page * 10 - 10 + index + 2;
+        }
+        try {
+            const res = await fetch("/api/delete", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    rowNumber,
+                }),
+            });
+            const data = await res.json();
+            console.log(data);
+            refetch();
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
     const percents = {
         charityA: (
             (totals.charityATotal / (numOfRecords * 3_000_000)) *
@@ -73,36 +102,7 @@ export default function Statistic() {
             {!isPending && !isError && data && (
                 <div className="w-full p-4 flex flex-col items-center justify-between text-xs md:text-md">
                     {latestRecord && (
-                        <div className="flex gap-2 flex-wrap items-center justify-center mb-4">
-                            <h2 className="font-semibold">LATEST DONATION:</h2>
-                            <p>
-                                <span className="font-semibold">A:</span>{" "}
-                                {latestRecord[0]} Ft
-                            </p>
-                            <p>
-                                <span className="font-semibold">B:</span>{" "}
-                                {latestRecord[1]} Ft
-                            </p>
-                            <p>
-                                <span className="font-semibold">C:</span>{" "}
-                                {latestRecord[2]} Ft
-                            </p>
-                            <p>
-                                <span className="font-semibold">D:</span>{" "}
-                                {latestRecord[3]} Ft
-                            </p>
-                            <p>
-                                <span className="font-semibold">IP:</span>{" "}
-                                {latestRecord[4]}
-                            </p>
-                            <p>
-                                <span className="font-semibold">
-                                    CREATED AT:
-                                </span>{" "}
-                                {latestRecord[5]}
-                            </p>
-                            <hr />
-                        </div>
+                        <LatestRecord latestRecord={latestRecord} />
                     )}
                     <h1 className="font-semibold">
                         NUMBER OF RECORD:{" "}
@@ -159,53 +159,9 @@ export default function Statistic() {
                                         })}
                                         <td>
                                             <button
-                                                onClick={async () => {
-                                                    let rowNumber;
-                                                    if (
-                                                        sortDirection === "desc"
-                                                    ) {
-                                                        rowNumber =
-                                                            page === 1
-                                                                ? numOfRecords -
-                                                                  index +
-                                                                  1
-                                                                : numOfRecords -
-                                                                  page * 10 +
-                                                                  (10 - index) +
-                                                                  1;
-                                                    } else {
-                                                        rowNumber =
-                                                            page === 1
-                                                                ? index + 2
-                                                                : page * 10 -
-                                                                  10 +
-                                                                  index +
-                                                                  2;
-                                                    }
-                                                    try {
-                                                        const res = await fetch(
-                                                            "/api/delete",
-                                                            {
-                                                                method: "POST",
-                                                                headers: {
-                                                                    "Content-Type":
-                                                                        "application/json",
-                                                                },
-                                                                body: JSON.stringify(
-                                                                    {
-                                                                        rowNumber,
-                                                                    }
-                                                                ),
-                                                            }
-                                                        );
-                                                        const data =
-                                                            await res.json();
-                                                        console.log(data);
-                                                        refetch();
-                                                    } catch (err) {
-                                                        console.log(err);
-                                                    }
-                                                }}
+                                                onClick={() =>
+                                                    handleDelete(index)
+                                                }
                                             >
                                                 <Trash2 className="w-3 h-3 md:w-6 md:h-6" />
                                             </button>
