@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Loader2, Trash2 } from "lucide-react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { Pie } from "react-chartjs-2";
+import PieChart from "@/components/PieChart";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -62,39 +62,6 @@ export default function Statistic() {
         ).toFixed(2),
     };
 
-    const chartData = {
-        labels: [
-            `A: ${percents.charityA}%`,
-            `B: ${percents.charityB}%`,
-            `C: ${percents.charityC}%`,
-            `D: ${percents.charityD}%`,
-        ],
-        datasets: [
-            {
-                label: "Amount: ",
-                data: [
-                    totals.charityATotal,
-                    totals.charityBTotal,
-                    totals.charityCTotal,
-                    totals.charityDTotal,
-                ],
-                backgroundColor: [
-                    "rgba(255, 99, 132, 0.2)",
-                    "rgba(54, 162, 235, 0.2)",
-                    "rgba(255, 206, 86, 0.2)",
-                    "rgba(75, 192, 192, 0.2)",
-                ],
-                borderColor: [
-                    "rgba(255, 99, 132, 1)",
-                    "rgba(54, 162, 235, 1)",
-                    "rgba(255, 206, 86, 1)",
-                    "rgba(75, 192, 192, 1)",
-                ],
-                borderWidth: 1,
-            },
-        ],
-    };
-
     return (
         <>
             {isPending && (
@@ -142,10 +109,10 @@ export default function Statistic() {
                         <span className="font-medium">{numOfRecords}</span>
                     </h1>
                     <div className="mt-4">
-                        <Pie data={chartData} />
+                        <PieChart percents={percents} totals={totals} />
                     </div>
                     <hr />
-                    <div className="flex gap-2">
+                    <div className="mt-6 flex gap-2">
                         <p className="font-bold">Amount donated per charity:</p>
                         <p>A: {totals.charityATotal}</p>
                         <p>B: {totals.charityBTotal}</p>
@@ -170,7 +137,7 @@ export default function Statistic() {
                         <option value="asc">ASCENDING</option>
                         <option value="desc">DESCENDING</option>
                     </select>
-                    <table className="w-full md:w-3/4 text-center text-xs md:text-md">
+                    <table className="w-full md:w-3/4 text-center text-[8px] sm:text-sm md:text-md">
                         <thead>
                             <tr>
                                 <th>A</th>

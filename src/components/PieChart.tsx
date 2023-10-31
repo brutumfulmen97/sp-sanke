@@ -1,17 +1,24 @@
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Pie } from "react-chartjs-2";
 
-ChartJS.register(ArcElement, Tooltip, Legend);
-
-export default function PieChart({ values }: any) {
+export default function PieChart({ percents, totals }: any) {
     // const values = Object.values(data);
     // console.log(values);
     const chartData = {
-        labels: ["A", "B", "C", "D"],
+        labels: [
+            `A: ${percents.charityA}%`,
+            `B: ${percents.charityB}%`,
+            `C: ${percents.charityC}%`,
+            `D: ${percents.charityD}%`,
+        ],
         datasets: [
             {
-                label: "Amont: ",
-                data: [2, 4, 5, 6],
+                label: "Amount: ",
+                data: [
+                    totals.charityATotal,
+                    totals.charityBTotal,
+                    totals.charityCTotal,
+                    totals.charityDTotal,
+                ],
                 backgroundColor: [
                     "rgba(255, 99, 132, 0.2)",
                     "rgba(54, 162, 235, 0.2)",
