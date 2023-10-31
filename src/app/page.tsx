@@ -16,8 +16,33 @@ export default function Home() {
     const [sleds, setSleds] = useState(initialState);
     const [total, setTotal] = useState(0);
 
+    async function handleSubmit() {
+        if (total < 3_000_000) return alert("Nije dovoljno novca");
+
+        const data = {
+            charityA: sleds[0].value,
+            charityB: sleds[1].value,
+            charityC: sleds[2].value,
+            charityD: sleds[3].value,
+        };
+
+        try {
+            const res = await fetch("/api/sheets", {
+                method: "POST",
+                body: JSON.stringify(data),
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+
+            if (!res.ok) throw new Error("Something went wrong");
+        } catch (e: any) {
+            console.log(e.message);
+        }
+    }
+
     return (
-        <main className="p-4">
+        <main className="md:p-4">
             {/*@ts-ignore*/}
             <TotalContext.Provider value={{ total, setTotal }}>
                 {/*@ts-ignore*/}
@@ -43,7 +68,10 @@ export default function Home() {
                         >
                             VRATI
                         </button>
-                        <button className="px-4 py-2 bg-red-500 rounded-full text-white">
+                        <button
+                            className="px-4 py-2 bg-red-500 rounded-full text-white"
+                            onClick={handleSubmit}
+                        >
                             SACUVAJ
                         </button>
                     </div>

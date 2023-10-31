@@ -31,9 +31,10 @@ const Charity = ({ id, parent, value }: any) => {
 
     const draggableMarkup = (
         <Draggable id={id}>
-            <div className=" text-center " style={style}>
-                Drag Me
-            </div>
+            <div
+                className=" text-center text-xs font-semibold md:text-md w-full h-4"
+                style={style}
+            ></div>
         </Draggable>
     );
 
@@ -62,9 +63,9 @@ const Charity = ({ id, parent, value }: any) => {
                         <Droppable
                             key={id}
                             id={id}
-                            className="text-center border-2"
+                            className="text-center border-2 text-xs md:text-md w-full"
                         >
-                            {parent === id ? draggableMarkup : "Drop here"}
+                            {parent === id ? draggableMarkup : ""}
                         </Droppable>
                     ))}
                 </DndContext>
