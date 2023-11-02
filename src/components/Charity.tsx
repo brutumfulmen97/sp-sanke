@@ -6,6 +6,26 @@ import { SledContext } from "@/context/sled-context";
 import { useContext, useEffect, useState } from "react";
 import { TotalContext } from "@/context/total-context";
 import Image from "next/image";
+import Popup from "./Popup";
+
+const popupTexts = [
+  `Az idei támogatást a Szent István Filharmonikusok Felfedezőúton címmel néhány éve elindított, egyedi szerkesztésű ifjúsági előadás-sorozatára szeretnénk fordítani. 45 perces műsorunkat általános iskolákba visszük el, ahol a diákok iskolaidőben, ingyenesen tekinthetik meg.
+
+    2023-ban Petőfi évforduló lesz, az ő költészetére építve mutatunk be tavasszal az alsótagozatos és óvodás korosztály számára egy vetítéssel, tánccal egybekötött, magával ragadó művészeti programot, amit Budapest minél több kerületére szeretnénk kiterjeszteni. Köszönjük az ifjúság művészeti nevelésére adott szavazataikat!`,
+  ,
+  `A NOÉ Állatotthon Alapítvány Magyarország legnagyobb menhelyeként 1300 állat ideiglenes, vagy sok esetben végleges otthona. Nem csak hagyományos kutya és cicamenhely vagyunk, hanem élnek nálunk gazdasági állatok, vadászható fajok egyedei és egzotikus állatok is. Egy közös mindannyiukban, hogy valamikor az életük során bajba kerültek és segítségre, mentésre szorultak. Bár közhasznú alapítványként nonprofit szervezet vagyunk, sajnos a recessziós intézkedések minket is érintenek. Magas rezsit fizetünk, piaci áron tankolunk, állami támogatásban nem részesülünk. Így talán még sosem volt akkora szükség a nagylelkű adományozókra, támogatókra, mint napjainkban.
+
+  A gondozásunkba kerülő állatok túlnyomó többsége súlyosan sérült, vagy beteg. A sok beteg és sérült állat állatorvosi költsége, speciális ellátásuk, a gyógyszereik havonta 4-5 millió forintba kerülnek. A NEXON felajánlását is erre szeretnénk fordítani, köszönjük ránk adott szavazataikat.`,
+  ,
+  `Az Autizmus Alapítvány 1989 óta működik országos hatáskörrel. Fő célja, hogy a teljes autizmus spektrumot lefedve, olyan világszínvonalú eljárásokat adaptáljon, dolgozzon ki és terjesszen el, amelyek a diagnosztikus folyamattól kezdve a felnőttkori gondozásig lehetővé teszik a szakszerű ellátást. Az eltelt több, mint 30 év alatt közel tízezer személynek nyújtottunk támogatást intézményegységeinken keresztül. ​Az alapítvány szakmai munkáját a szervezet tulajdonában lévő két ingatlanban valósítja meg, melyek fenntartása az utóbbi időszakban bekövetkezett drámai változások miatt nagyon nehézzé vált. Civil fenntartóként kedvezményt, segítséget a jelenlegi szabályozás szerint sajnos nem kaphatunk. Ezért ebben az évben ahhoz kérjük nagylelkű segítségüket, hogy átvészeljük az energiaárak robbanása okozta súlyos nehézségeket.`,
+  `A Lámpás ’92 Közhasznú Alapítvány immár 30 éve azért dolgozik, hogy lehetővé tegye több száz fogyatékossággal élő embertársunk családias környezetben történő lakhatását, foglalkoztatását, művészeti képzését, valamint rászoruló gyermekek, családok ellátását.
+
+  Valkói központi otthonunkban - melyben 11 értelmi fogyatékossággal élő ellátottunk lakik – megújuló energiarendszer kialakítását és a teljes elektronikai rendszer korszerűsítését indítottuk el.
+  
+  A projekt teljes költsége közel 8 millió forint. Ezen központi otthonunk fejlesztése azért is nélkülözhetetlen, mert részben ez látja el a néhány házzal odébb elhelyezkedő 9 fős otthonunkat is, valamint a tavasszal megnyíló, harmadik családias otthonunkat értelmi sérült embertársaink számára.
+  
+  Köszönjük, ha szavazatukkal támogatják otthonunk megújuló energetikai rendszerének kiépítését.`,
+];
 
 const Charity = ({
   title,
@@ -28,6 +48,7 @@ const Charity = ({
   const [style, setStyle] = useState({
     cursor: "grab",
   });
+  const [popupOpen, setPopupOpen] = useState(false);
 
   const draggableMarkup = (
     <Draggable id={id}>
@@ -63,7 +84,7 @@ const Charity = ({
 
   return (
     <div className="w-full relative mb-12">
-      <h2 className="w-full text-end pr-4 text-2xl text-blue-900">
+      <h2 className="w-full text-end pr-[5%] text-2xl text-blue-900">
         {new Intl.NumberFormat("hu-HU", {
           style: "currency",
           currency: "HUF",
@@ -111,8 +132,9 @@ const Charity = ({
               width: "7%",
               height: "auto",
             }}
-            className="max-w-[70px]"
+            className="max-w-[70px] cursor-pointer"
             alt="info"
+            onClick={() => setPopupOpen(true)}
           />
           <a
             href={`https://${link}`}
@@ -130,6 +152,29 @@ const Charity = ({
               alt="info"
             />
           </a>
+          {popupOpen && (
+            <div className="fixed w-full h-screen left-0 top-0 bg-[rgba(0,0,0,0.1)] z-30">
+              <div className="fixed z-30 left-1/2 top-1/2 -translate-x-[50%] -translate-y-[50%] w-[90vw] min-h-[70vh] md:min-h-[50vh] bg-[#06283ed9]   rounded-lg p-12 text-white">
+                <button
+                  className="absolute right-4 top-4"
+                  onClick={() => {
+                    setPopupOpen(false);
+                  }}
+                >
+                  <Image
+                    src="/closeBtn.png"
+                    width={30}
+                    height={30}
+                    alt="close btn"
+                  />
+                </button>
+                <h1 className="text-3xl text-center mb-4">{title}</h1>
+                <p>{popupTexts[id - 1]}</p>
+              </div>
+            </div>
+          )}
+
+          <p className="text-2xl">{title.toUpperCase()}</p>
         </div>
       </div>
     </div>
