@@ -88,10 +88,12 @@ export default function Home() {
           alt="dugme"
         />
         <p className="px-4 text-lg text-center mt-4">
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quasi quos
-          dolore, possimus obcaecati, voluptatibus consectetur ullam labore
-          facere perspiciatis eius praesentium, repellat ut a nemo voluptatum
-          accusamus cum nihil dolorem?
+          A szánkópályán minden beosztás 250 ezer forintot jelent. Húzza a
+          szánkókat aszerint. ahogyan Ön osztaná el az adományt az alapítvanyok
+          között. A kivalasztott arányokat végül egyesitjük, s ennek megfelelöen
+          osztjuk szét a felajánlott összeget a négy szervezet között. Miután
+          végzett, az &quot;Elküldöm&quot; gombra kattintva véglegesitse
+          döntését.
         </p>
         <Toaster />
         <TotalContext.Provider value={{ total, setTotal }}>
@@ -110,7 +112,7 @@ export default function Home() {
               );
             })}
 
-            <div className="w-full px-[5%] mt-12 flex gap-4 justify-center items-center">
+            <div className="w-full px-[15%] mt-12 flex gap-[10%] justify-center items-center mb-4">
               <button
                 onClick={() => {
                   setSleds(initialState);

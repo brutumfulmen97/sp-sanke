@@ -60,7 +60,7 @@ const Charity = ({
         <div className="relative w-full h-12 grid place-items-center">
           <Image
             src="/sanke.png"
-            width={100}
+            width={600}
             height={300}
             alt="snake"
             className="absolute max-w-[200%]"
@@ -187,6 +187,7 @@ const Charity = ({
     const newTotal = +total - +parent * 250000;
 
     let newValue;
+    if (!over || !over?.id) return;
     newSleds = sleds.map((sled: { id: number; parent: string }) => {
       if (id === sled.id) {
         if (newTotal + over.id * 250000 > 3_000_000) {
