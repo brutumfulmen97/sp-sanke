@@ -3,14 +3,36 @@
 import Charity from "@/components/Charity";
 import { SledContext } from "@/context/sled-context";
 import { TotalContext } from "@/context/total-context";
-import { ErrorInfo, useState } from "react";
+import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import Image from 'next/image'
 
 const initialState = [
     { id: 1, parent: "0", value: 0 },
     { id: 2, parent: "0", value: 0 },
     { id: 3, parent: "0", value: 0 },
     { id: 4, parent: "0", value: 0 },
+];
+
+const links = [
+    "www.szentistvanzene.hu",
+    "www.autizmus.hu",
+    "www.elelmiszerbank.hu",
+    "www.lampas92.hu",
+];
+
+const titles = [
+    "Szent István Zenei Alapítvány",
+    "Autizmus Alapítvány",
+    "Élelmiszerbank egyesület",
+    "Lámpás 92 Alapítvány",
+];
+
+const images = [
+    "/sneg1.png",
+    "/sneg2.png",
+    "/sneg3.png",
+    "/sneg4.png",
 ];
 
 export default function Home() {
@@ -48,13 +70,25 @@ export default function Home() {
     }
 
     return (
-        <main className="md:p-4">
+        <main className="w-full">
+            <Image src={'/bgImage.png'} width={1920} height={1080} alt="bg image" priority style={{
+                width: '100%',
+                height: 'auto',
+            }} />
+            <div className="absolute w-full inset-0 mt-[55%] flex flex-col items-center justify-start">
+                <Image src="/dugme.png" width={300} height={300} style={{
+                    width: "40%"
+                }} alt="dugme"/>
+                <p className="px-4 text-lg text-center mt-4">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quasi quos dolore, possimus obcaecati, voluptatibus consectetur ullam labore facere perspiciatis eius praesentium, repellat ut a nemo voluptatum accusamus cum nihil dolorem?</p>
             <Toaster />
             <TotalContext.Provider value={{ total, setTotal }}>
                 <SledContext.Provider value={{ sleds, setSleds }}>
-                    {sleds.map((sled) => {
+                    {sleds.map((sled ,idx) => {
                         return (
                             <Charity
+                            image={images[idx]}
+                                title={titles[idx]}
+                                link={links[idx]}
                                 id={sled.id}
                                 parent={sled.parent}
                                 key={sled.id}
@@ -63,7 +97,7 @@ export default function Home() {
                         );
                     })}
 
-                    <div className="w-full flex gap-4 justify-center items-center">
+                    <div className="w-full  flex gap-4 justify-center items-center">
                         <button
                             onClick={() => {
                                 setSleds(initialState);
@@ -86,6 +120,7 @@ export default function Home() {
                     <h2>LEFT: {3_000_000 - total} Ft</h2>
                 </SledContext.Provider>
             </TotalContext.Provider>
+            </div>
         </main>
     );
 }
