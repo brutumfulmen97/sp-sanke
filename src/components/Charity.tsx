@@ -123,7 +123,7 @@ const Charity = ({
             ))}
           </DndContext>
         </div>
-        <div className="flex gap-8 mt-[2%] w-full items-center justify-start">
+        <div className="flex gap-[5%] -mt-[1%] mobile:mt-[2%] w-full items-center justify-start">
           <Image
             src="/info.png"
             width={50}
@@ -152,31 +152,33 @@ const Charity = ({
               alt="info"
             />
           </a>
-          {popupOpen && (
-            <div className="fixed w-full h-screen left-0 top-0 bg-[rgba(0,0,0,0.1)] z-30">
-              <div className="fixed z-30 left-1/2 top-1/2 -translate-x-[50%] -translate-y-[50%] w-[90vw] min-h-[70vh] md:min-h-[50vh] bg-[#06283ed9]   rounded-lg p-12 text-white">
-                <button
-                  className="absolute right-4 top-4"
-                  onClick={() => {
-                    setPopupOpen(false);
-                  }}
-                >
-                  <Image
-                    src="/closeBtn.png"
-                    width={30}
-                    height={30}
-                    alt="close btn"
-                  />
-                </button>
-                <h1 className="text-3xl text-center mb-4">{title}</h1>
-                <p>{popupTexts[id - 1]}</p>
-              </div>
-            </div>
-          )}
 
-          <p className="text-2xl">{title.toUpperCase()}</p>
+          <p className="text-[8px] mobile:text-lg md:text-2xl">
+            {title.toUpperCase()}
+          </p>
         </div>
       </div>
+      {popupOpen && (
+        <div className="fixed w-full h-screen left-0 top-0 bg-[rgba(0,0,0,0.1)] z-30">
+          <div className="fixed z-30 left-1/2 top-1/2 -translate-x-[50%] -translate-y-[50%] w-[90vw] min-h-[70vh] md:min-h-[50vh] bg-[#06283ed9]   rounded-lg p-12 text-white">
+            <button
+              className="absolute right-4 top-4"
+              onClick={() => {
+                setPopupOpen(false);
+              }}
+            >
+              <Image
+                src="/closeBtn.png"
+                width={30}
+                height={30}
+                alt="close btn"
+              />
+            </button>
+            <h1 className="text-3xl text-center mb-4">{title}</h1>
+            <p>{popupTexts[id - 1]}</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 
