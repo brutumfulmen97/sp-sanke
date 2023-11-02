@@ -26,7 +26,6 @@ const Charity = ({
   const { sleds, setSleds } = useContext(SledContext);
   const { total, setTotal } = useContext(TotalContext);
   const [style, setStyle] = useState({
-    background: "lightgreen",
     cursor: "grab",
   });
 
@@ -35,15 +34,15 @@ const Charity = ({
       <div
         className="text-center text-xs font-semibold md:text-md w-full 
         "
-        // style={style}
+        style={style}
       >
-        <div className="relative w-full h-12">
+        <div className="relative w-full h-12 grid place-items-center">
           <Image
             src="/sanke.png"
             width={100}
             height={300}
             alt="snake"
-            className="absolute"
+            className="absolute max-w-[200%]"
           />
         </div>
       </div>
@@ -53,19 +52,17 @@ const Charity = ({
   useEffect(() => {
     if (+total < 3_000_000 || value !== 0) {
       setStyle({
-        background: "lightgreen",
         cursor: "grab",
       });
     } else {
       setStyle({
-        background: "lightcoral",
         cursor: "not-allowed",
       });
     }
   }, [total, value]);
 
   return (
-    <div className="w-full relative">
+    <div className="w-full relative mb-12">
       <h2 className="w-full text-end pr-4 text-2xl text-blue-900">
         {new Intl.NumberFormat("hu-HU", {
           style: "currency",
@@ -83,10 +80,15 @@ const Charity = ({
           height: "auto",
         }}
       />
-      <div className="absolute w-full top-[25%] px-[5%]">
+      <div className="absolute w-full top-[20%] px-[5%]">
         <div className="flex justify-between ">
           <DndContext
             onDragEnd={handleDragEnd}
+            onDragStart={() => {
+              setStyle({
+                cursor: "grabbing",
+              });
+            }}
             modifiers={[restrictToHorizontalAxis]}
           >
             {containers.map((id: string) => (
@@ -100,10 +102,33 @@ const Charity = ({
             ))}
           </DndContext>
         </div>
-        <div className="flex gap-4 mt-4">
-          <Image src="/info.png" width={50} height={50} alt="info" />
-          <a href={link} target="_blank">
-            <Image src="/link.png" width={50} height={50} alt="info" />
+        <div className="flex gap-8 mt-[2%] w-full items-center justify-start">
+          <Image
+            src="/info.png"
+            width={50}
+            height={50}
+            style={{
+              width: "7%",
+              height: "auto",
+            }}
+            className="max-w-[70px]"
+            alt="info"
+          />
+          <a
+            href={`https://${link}`}
+            target="_blank"
+            className="w-[7%] max-w-[70px]"
+          >
+            <Image
+              src="/link.png"
+              width={50}
+              height={50}
+              style={{
+                width: "100%",
+                height: "auto",
+              }}
+              alt="info"
+            />
           </a>
         </div>
       </div>

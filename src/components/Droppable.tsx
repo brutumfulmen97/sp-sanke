@@ -1,20 +1,17 @@
 import { useDroppable } from "@dnd-kit/core";
 
 export default function Droppable(props: {
-    id: string;
-    children: React.ReactNode;
-    className?: string;
+  id: string;
+  children: React.ReactNode;
+  className?: string;
 }) {
-    const { isOver, setNodeRef } = useDroppable({
-        id: props.id,
-    });
-    const style = {
-        border: isOver ? "1px solid darkgreen" : undefined,
-    };
+  const { isOver, setNodeRef } = useDroppable({
+    id: props.id,
+  });
 
-    return (
-        <div ref={setNodeRef} style={style} className={props.className}>
-            {props.children}
-        </div>
-    );
+  return (
+    <div ref={setNodeRef} className={props.className}>
+      {props.children}
+    </div>
+  );
 }

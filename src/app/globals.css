@@ -9,6 +9,10 @@
     padding:0;
 }
 
+body {
+    background: #d3e8f4;
+}
+
 td,
 th {
     border: 1px solid black;
