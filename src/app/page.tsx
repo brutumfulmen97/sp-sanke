@@ -78,7 +78,7 @@ export default function Home() {
             height: "auto",
           }}
         />
-        <h1 className="absolute left-[50%] -translate-x-[50%] top-[3%] tablet:top-[12%] z-10 boldItalic text-4xl tablet:text-6xl text-center text-[#13647A]">
+        <h1 className="absolute left-[50%] -translate-x-[50%] top-[3%] tablet:top-[12%] z-10 boldItalic text-lg mobile:text-3xl tablet:text-6xl text-center text-[#13647A]">
           AZ AJÁNDÉK KÖZÖS
         </h1>
         <div className="absolute left-[50%] -translate-x-[50%] px-2 w-full max-w-[960px] inset-0 mt-[55%] tablet:mt-[600px] flex flex-col items-center justify-start ">
@@ -124,12 +124,12 @@ export default function Home() {
                       setTotal(0);
                     }}
                     disabled={total === 0}
-                    className="w-full py-1 md:py-2 bg-[#e3f6fc] border-[3px] border-[#78909c] text-[#78909c] rounded-full button text-lg md:text-2xl"
+                    className="w-full py-1 md:py-2 bg-[#e3f6fc] border-[3px] border-[#78909c] text-[#78909c] rounded-full button text-sm md:text-2xl"
                   >
                     VISSZAÁLLÍTÁS
                   </button>
                   <button
-                    className="w-full py-1 md:py-2 bg-[#14A351] disabled:bg-[#8caab5] border-[3px] border-white rounded-full text-white button text-lg md:text-2xl"
+                    className="w-full py-1 md:py-2 bg-[#14A351] disabled:bg-[#8caab5] border-[3px] border-white rounded-full text-white button text-sm md:text-2xl"
                     onClick={handleSubmit}
                     disabled={total < 3_000_000}
                   >
