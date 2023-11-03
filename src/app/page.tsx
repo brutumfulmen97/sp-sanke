@@ -65,75 +65,79 @@ export default function Home() {
   }
 
   return (
-    <main className="w-full ">
-      <Image
-        src={"/bgImage.png"}
-        width={1920}
-        height={1080}
-        alt="bg image"
-        priority
-        style={{
-          width: "100%",
-          height: "auto",
-        }}
-      />
-      <div className="absolute w-full inset-0 mt-[55%] flex flex-col items-center justify-start ">
+    <div className="w-full max-w-[100%] h-full flex items-center justify-center">
+      <main className="w-full h-full pb-4 tablet:border-2 tablet:mt-12 tablet:mb-12 border-black max-w-[960px]">
         <Image
-          src="/dugme.png"
-          width={300}
-          height={300}
+          src={"/bgImage.png"}
+          width={1920}
+          height={1080}
+          alt="bg image"
+          priority
           style={{
-            width: "40%",
+            width: "100%",
+            height: "auto",
           }}
-          alt="dugme"
         />
-        <p className="px-4 text-lg text-center mt-4">
-          A szánkópályán minden beosztás 250 ezer forintot jelent. Húzza a
-          szánkókat aszerint. ahogyan Ön osztaná el az adományt az alapítvanyok
-          között. A kivalasztott arányokat végül egyesitjük, s ennek megfelelöen
-          osztjuk szét a felajánlott összeget a négy szervezet között. Miután
-          végzett, az &quot;Elküldöm&quot; gombra kattintva véglegesitse
-          döntését.
-        </p>
-        <Toaster />
-        <TotalContext.Provider value={{ total, setTotal }}>
-          <SledContext.Provider value={{ sleds, setSleds }}>
-            {sleds.map((sled, idx) => {
-              return (
-                <Charity
-                  image={images[idx]}
-                  title={titles[idx]}
-                  link={links[idx]}
-                  id={sled.id}
-                  parent={sled.parent}
-                  key={sled.id}
-                  value={sled.value}
-                />
-              );
-            })}
+        <div className="absolute left-[50%] -translate-x-[50%] px-2 w-full max-w-[960px] inset-0 mt-[55%] tablet:mt-[600px] flex flex-col items-center justify-start ">
+          <Image
+            src="/dugme.png"
+            width={300}
+            height={300}
+            style={{
+              width: "40%",
+            }}
+            alt="dugme"
+          />
+          <p className="title px-4 text-lg text-center mt-4">
+            A szánkópályán minden beosztás 250 ezer forintot jelent. Húzza a
+            szánkókat aszerint. ahogyan Ön osztaná el az adományt az
+            alapítvanyok között. A kivalasztott arányokat végül egyesitjük, s
+            ennek megfelelöen osztjuk szét a felajánlott összeget a négy
+            szervezet között. Miután végzett, az &quot;Elküldöm&quot; gombra
+            kattintva véglegesitse döntését.
+          </p>
+          <Toaster />
+          <div className="w-full h-full mb-24">
+            <TotalContext.Provider value={{ total, setTotal }}>
+              <SledContext.Provider value={{ sleds, setSleds }}>
+                {sleds.map((sled, idx) => {
+                  return (
+                    <Charity
+                      image={images[idx]}
+                      title={titles[idx]}
+                      link={links[idx]}
+                      id={sled.id}
+                      parent={sled.parent}
+                      key={sled.id}
+                      value={sled.value}
+                    />
+                  );
+                })}
 
-            <div className="w-full px-[15%] mt-12 flex gap-[10%] justify-center items-center mb-4">
-              <button
-                onClick={() => {
-                  setSleds(initialState);
-                  setTotal(0);
-                }}
-                disabled={total === 0}
-                className="w-full py-2 bg-[#e3f6fc] border-[3px] border-[#78909c] text-[#78909c] rounded-full font-bold"
-              >
-                VRATI
-              </button>
-              <button
-                className="w-full py-2 bg-[#14A351] disabled:bg-[#8caab5] border-[3px] border-white rounded-full text-white font-bold"
-                onClick={handleSubmit}
-                disabled={total < 3_000_000}
-              >
-                SACUVAJ
-              </button>
-            </div>
-          </SledContext.Provider>
-        </TotalContext.Provider>
-      </div>
-    </main>
+                <div className="w-full px-[15%] mt-12 flex gap-[10%] justify-center items-center">
+                  <button
+                    onClick={() => {
+                      setSleds(initialState);
+                      setTotal(0);
+                    }}
+                    disabled={total === 0}
+                    className="w-full py-1 md:py-2 bg-[#e3f6fc] border-[3px] border-[#78909c] text-[#78909c] rounded-full button text-lg md:text-2xl"
+                  >
+                    VISSZAÁLLÍTÁS
+                  </button>
+                  <button
+                    className="w-full py-1 md:py-2 bg-[#14A351] disabled:bg-[#8caab5] border-[3px] border-white rounded-full text-white button text-lg md:text-2xl"
+                    onClick={handleSubmit}
+                    disabled={total < 3_000_000}
+                  >
+                    ELKÜLDÖM
+                  </button>
+                </div>
+              </SledContext.Provider>
+            </TotalContext.Provider>
+          </div>
+        </div>
+      </main>
+    </div>
   );
 }

@@ -1,8 +1,5 @@
-import { DndContext, DragOverlay } from "@dnd-kit/core";
-import {
-  restrictToHorizontalAxis,
-  restrictToWindowEdges,
-} from "@dnd-kit/modifiers";
+import { DndContext } from "@dnd-kit/core";
+import { restrictToHorizontalAxis } from "@dnd-kit/modifiers";
 import Draggable from "@/components/Draggable";
 import Droppable from "@/components/Droppable";
 import { SledContext } from "@/context/sled-context";
@@ -83,13 +80,13 @@ const Charity = ({
   }, [total, value]);
 
   return (
-    <div className="w-full relative mb-12">
-      <h2 className="w-full text-end pr-[5%] text-2xl text-blue-900">
+    <div className="w-full relative mt-12">
+      <h2 className="w-full text-end pr-[5%] text-lg mobile:text-4xl md:text-6xl text-[#26C6DA] value">
         {new Intl.NumberFormat("hu-HU", {
-          style: "currency",
           currency: "HUF",
           maximumFractionDigits: 0,
-        }).format(+parent * 250000)}
+        }).format(+parent * 250000)}{" "}
+        <span className="ft">Ft</span>
       </h2>
       <Image
         src={image}
@@ -101,7 +98,7 @@ const Charity = ({
           height: "auto",
         }}
       />
-      <div className="absolute w-full top-[20%] px-[5%]">
+      <div className="absolute w-full top-[20%] md:top-[30%] px-[5%]">
         <div className="flex justify-between ">
           <DndContext
             onDragEnd={handleDragEnd}
@@ -116,31 +113,27 @@ const Charity = ({
                 {parent === id ? draggableMarkup : ""}
               </Droppable>
             ))}
-            <DragOverlay modifiers={[restrictToWindowEdges]}></DragOverlay>
           </DndContext>
         </div>
         <div className="flex gap-[5%] -mt-[1%] mobile:mt-[2%] w-full items-center justify-start">
           <Image
             src="/info.png"
-            width={50}
-            height={50}
-            style={{
-              width: "7%",
-              height: "auto",
-            }}
-            className="max-w-[70px] cursor-pointer"
+            width={70}
+            height={70}
+            className="w-[35px] md:w-[70px] cursor-pointer"
             alt="info"
             onClick={() => setPopupOpen(true)}
           />
           <a
             href={`https://${link}`}
             target="_blank"
-            className="w-[7%] max-w-[70px]"
+            className="w-[35px] md:w-[70px]"
           >
             <Image
               src="/link.png"
-              width={50}
-              height={50}
+              width={70}
+              height={70}
+              className="w-[35px] md:w-[70px]"
               style={{
                 width: "100%",
                 height: "auto",
@@ -149,14 +142,14 @@ const Charity = ({
             />
           </a>
 
-          <p className="text-[8px] mobile:text-lg md:text-2xl">
+          <p className="text-[8px] mobile:text-lg md:text-2xl title">
             {title.toUpperCase()}
           </p>
         </div>
       </div>
       {popupOpen && (
         <div className="fixed w-full h-screen left-0 top-0 bg-[rgba(0,0,0,0.1)] z-30">
-          <div className="fixed z-30 left-1/2 top-1/2 -translate-x-[50%] -translate-y-[50%] w-[90vw] min-h-[70vh] md:min-h-[50vh] bg-[#06283ed9]   rounded-lg p-12 text-white">
+          <div className="fixed z-30 left-1/2 top-1/2 -translate-x-[50%] -translate-y-[50%] w-[90vw] min-h-[70vh] md:min-h-[50vh] bg-[#06283ed9]   rounded-lg p-6 mobile:p-12 text-white">
             <button
               className="absolute right-4 top-4"
               onClick={() => {
@@ -170,8 +163,10 @@ const Charity = ({
                 alt="close btn"
               />
             </button>
-            <h1 className="text-3xl text-center mb-4">{title}</h1>
-            <p>{popupTexts[id - 1]}</p>
+            <h1 className="text-3xl text-center mb-4 button">
+              {title.toUpperCase()}
+            </h1>
+            <p className="title text-sm mobile:text-lg">{popupTexts[id - 1]}</p>
           </div>
         </div>
       )}
