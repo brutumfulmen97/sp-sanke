@@ -1,7 +1,6 @@
 import { DndContext, DragOverlay } from "@dnd-kit/core";
 import {
   restrictToHorizontalAxis,
-  restrictToVerticalAxis,
   restrictToWindowEdges,
 } from "@dnd-kit/modifiers";
 import Draggable from "@/components/Draggable";
