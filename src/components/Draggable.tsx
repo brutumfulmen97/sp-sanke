@@ -9,10 +9,10 @@ export default function Draggable(props: {
     id: props.id,
   });
 
-  const rectRef = useRef(null);
+  const rectRef = useRef<HTMLDivElement>(null);
   let outOfBounds = false;
 
-  if (transform) {
+  if (transform && rectRef.current) {
     if (
       rectRef.current?.getBoundingClientRect().x +
         transform.x -
