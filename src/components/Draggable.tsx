@@ -10,26 +10,34 @@ export default function Draggable(props: {
   });
 
   const rectRef = useRef(null);
-  // if (transform) {
-  //   console.log(rectRef.current?.getBoundingClientRect().x + transform.x);
-  // }
+  let outOfBounds = false;
 
-  // if (transform) {
-  //   if (
-  //     rectRef.current?.getBoundingClientRect().right + transform.x >
-  //     window.innerWidth
-  //   ) {
-  //     console.log("sad");
-  //     transform.x =
-  //       window.innerWidth - rectRef.current?.getBoundingClientRect().x;
-  //   }
-  // }
+  if (transform) {
+    if (
+      rectRef.current?.getBoundingClientRect().x +
+        transform.x -
+        rectRef.current?.getBoundingClientRect().width / 2 >
+      Math.max(960, window.innerWidth)
+    ) {
+      console.log("desno");
+      outOfBounds = true;
+    } else if (
+      rectRef.current?.getBoundingClientRect().x +
+        transform.x -
+        rectRef.current?.getBoundingClientRect().width / 2 <
+      0
+    ) {
+      console.log("levo");
+      outOfBounds = true;
+    }
+  }
 
-  const style = transform
-    ? {
-        transform: `translate3d(${transform.x}px,0, 0)`,
-      }
-    : undefined;
+  const style =
+    transform && !outOfBounds
+      ? {
+          transform: `translate3d(${transform.x}px,0, 0)`,
+        }
+      : undefined;
 
   return (
     <div

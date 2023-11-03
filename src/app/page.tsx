@@ -66,7 +66,7 @@ export default function Home() {
 
   return (
     <div className="w-full max-w-[100%] h-full flex items-center justify-center">
-      <main className="w-full h-full pb-4 tablet:border-2 tablet:mt-12 tablet:mb-12 border-black max-w-[960px]">
+      <main className="w-full h-full pb-4 tablet:shadow tablet:mt-12 tablet:mb-12 border-black max-w-[960px]">
         <Image
           src={"/bgImage.png"}
           width={1920}
@@ -78,6 +78,9 @@ export default function Home() {
             height: "auto",
           }}
         />
+        <h1 className="absolute left-[50%] -translate-x-[50%] top-[3%] tablet:top-[12%] z-10 boldItalic text-4xl tablet:text-6xl text-center text-[#13647A]">
+          AZ AJÁNDÉK KÖZÖS
+        </h1>
         <div className="absolute left-[50%] -translate-x-[50%] px-2 w-full max-w-[960px] inset-0 mt-[55%] tablet:mt-[600px] flex flex-col items-center justify-start ">
           <Image
             src="/dugme.png"

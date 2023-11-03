@@ -62,6 +62,10 @@
     font-family: 'Planer-ExtraBold';
 }
 
+.boldItalic {
+    font-family: 'Planer-ExtraBoldItalic';
+}
+
 
 *, *::before, *::after {
     box-sizing: border-box;

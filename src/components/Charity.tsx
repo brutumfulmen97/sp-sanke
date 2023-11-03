@@ -148,8 +148,8 @@ const Charity = ({
         </div>
       </div>
       {popupOpen && (
-        <div className="fixed w-full h-screen left-0 top-0 bg-[rgba(0,0,0,0.1)] z-30">
-          <div className="fixed z-30 left-1/2 top-1/2 -translate-x-[50%] -translate-y-[50%] w-[90vw] min-h-[70vh] md:min-h-[50vh] bg-[#06283ed9]   rounded-lg p-6 mobile:p-12 text-white">
+        <div className="fixed w-[100%] h-screen left-0 top-0 z-30">
+          <div className="fixed z-30 left-1/2 top-[10vh] -translate-x-[50%] w-[90vw] max-w-[900px] min-h-[70vh] md:min-h-[50vh] bg-[#06283ed9]   rounded-lg p-6 mobile:p-12 text-white">
             <button
               className="absolute right-4 top-4"
               onClick={() => {
