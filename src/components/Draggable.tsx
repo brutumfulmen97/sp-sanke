@@ -10,34 +10,50 @@ export default function Draggable(props: {
   });
 
   const rectRef = useRef<HTMLDivElement>(null);
+  // console.log(
+  //   rectRef.current?.getBoundingClientRect().x +
+  //     rectRef.current?.getBoundingClientRect().width
+  // );
+  console.log(window.innerWidth);
   let outOfBounds = false;
 
+  // if (transform && rectRef.current) {
+  //   if (
+  //     rectRef.current?.getBoundingClientRect().x +
+  //       transform.x -
+  //       rectRef.current?.getBoundingClientRect().width / 2 >
+  //     Math.max(960, window.innerWidth)
+  //   ) {
+  //     console.log("desno");
+  //     outOfBounds = true;
+  //   } else if (
+  //     rectRef.current?.getBoundingClientRect().x +
+  //       transform.x -
+  //       rectRef.current?.getBoundingClientRect().width / 2 <
+  //     0
+  //   ) {
+  //     console.log("levo");
+  //     outOfBounds = true;
+  //   }
+  // }
+
+  // transform && console.log(transform.x);
+
   if (transform && rectRef.current) {
-    if (
-      rectRef.current?.getBoundingClientRect().x +
-        transform.x -
-        rectRef.current?.getBoundingClientRect().width / 2 >
-      Math.max(960, window.innerWidth)
-    ) {
+    const rect = rectRef.current.getBoundingClientRect();
+    if (rect.x + rect.width >= window.innerWidth) {
       console.log("desno");
-      outOfBounds = true;
-    } else if (
-      rectRef.current?.getBoundingClientRect().x +
-        transform.x -
-        rectRef.current?.getBoundingClientRect().width / 2 <
-      0
-    ) {
-      console.log("levo");
-      outOfBounds = true;
+      transform.x = 0;
+    } else if (rect.x <= 0) {
+      transform.x = 0;
     }
   }
 
-  const style =
-    transform && !outOfBounds
-      ? {
-          transform: `translate3d(${transform.x}px,0, 0)`,
-        }
-      : undefined;
+  const style = transform
+    ? {
+        transform: `translate3d(${transform.x}px,0, 0)`,
+      }
+    : undefined;
 
   return (
     <div
