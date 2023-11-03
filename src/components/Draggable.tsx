@@ -41,10 +41,18 @@ export default function Draggable(props: {
 
   if (transform && rectRef.current) {
     const rect = rectRef.current.getBoundingClientRect();
-    if (rect.x + rect.width >= window.innerWidth) {
-      console.log("desno");
+    if (
+      rect.x + rect.width >=
+      (window.innerWidth > 960
+        ? 960 + (window.innerWidth - 960) / 2
+        : window.innerWidth)
+    ) {
+      console.log(rect.x + rect.width);
       transform.x = 0;
-    } else if (rect.x <= 0) {
+    } else if (
+      rect.x <= (window.innerWidth > 960 ? (window.innerWidth - 960) / 2 : 0)
+    ) {
+      console.log("levo");
       transform.x = 0;
     }
   }
