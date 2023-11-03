@@ -1,22 +1,23 @@
-import { DndContext } from "@dnd-kit/core";
-import { restrictToHorizontalAxis } from "@dnd-kit/modifiers";
+import { DndContext, DragOverlay } from "@dnd-kit/core";
+import {
+  restrictToHorizontalAxis,
+  restrictToVerticalAxis,
+  restrictToWindowEdges,
+} from "@dnd-kit/modifiers";
 import Draggable from "@/components/Draggable";
 import Droppable from "@/components/Droppable";
 import { SledContext } from "@/context/sled-context";
 import { useContext, useEffect, useState } from "react";
 import { TotalContext } from "@/context/total-context";
 import Image from "next/image";
-import Popup from "./Popup";
 
 const popupTexts = [
   `Az idei támogatást a Szent István Filharmonikusok Felfedezőúton címmel néhány éve elindított, egyedi szerkesztésű ifjúsági előadás-sorozatára szeretnénk fordítani. 45 perces műsorunkat általános iskolákba visszük el, ahol a diákok iskolaidőben, ingyenesen tekinthetik meg.
 
     2023-ban Petőfi évforduló lesz, az ő költészetére építve mutatunk be tavasszal az alsótagozatos és óvodás korosztály számára egy vetítéssel, tánccal egybekötött, magával ragadó művészeti programot, amit Budapest minél több kerületére szeretnénk kiterjeszteni. Köszönjük az ifjúság művészeti nevelésére adott szavazataikat!`,
-  ,
   `A NOÉ Állatotthon Alapítvány Magyarország legnagyobb menhelyeként 1300 állat ideiglenes, vagy sok esetben végleges otthona. Nem csak hagyományos kutya és cicamenhely vagyunk, hanem élnek nálunk gazdasági állatok, vadászható fajok egyedei és egzotikus állatok is. Egy közös mindannyiukban, hogy valamikor az életük során bajba kerültek és segítségre, mentésre szorultak. Bár közhasznú alapítványként nonprofit szervezet vagyunk, sajnos a recessziós intézkedések minket is érintenek. Magas rezsit fizetünk, piaci áron tankolunk, állami támogatásban nem részesülünk. Így talán még sosem volt akkora szükség a nagylelkű adományozókra, támogatókra, mint napjainkban.
 
   A gondozásunkba kerülő állatok túlnyomó többsége súlyosan sérült, vagy beteg. A sok beteg és sérült állat állatorvosi költsége, speciális ellátásuk, a gyógyszereik havonta 4-5 millió forintba kerülnek. A NEXON felajánlását is erre szeretnénk fordítani, köszönjük ránk adott szavazataikat.`,
-  ,
   `Az Autizmus Alapítvány 1989 óta működik országos hatáskörrel. Fő célja, hogy a teljes autizmus spektrumot lefedve, olyan világszínvonalú eljárásokat adaptáljon, dolgozzon ki és terjesszen el, amelyek a diagnosztikus folyamattól kezdve a felnőttkori gondozásig lehetővé teszik a szakszerű ellátást. Az eltelt több, mint 30 év alatt közel tízezer személynek nyújtottunk támogatást intézményegységeinken keresztül. ​Az alapítvány szakmai munkáját a szervezet tulajdonában lévő két ingatlanban valósítja meg, melyek fenntartása az utóbbi időszakban bekövetkezett drámai változások miatt nagyon nehézzé vált. Civil fenntartóként kedvezményt, segítséget a jelenlegi szabályozás szerint sajnos nem kaphatunk. Ezért ebben az évben ahhoz kérjük nagylelkű segítségüket, hogy átvészeljük az energiaárak robbanása okozta súlyos nehézségeket.`,
   `A Lámpás ’92 Közhasznú Alapítvány immár 30 éve azért dolgozik, hogy lehetővé tegye több száz fogyatékossággal élő embertársunk családias környezetben történő lakhatását, foglalkoztatását, művészeti képzését, valamint rászoruló gyermekek, családok ellátását.
 
@@ -63,7 +64,7 @@ const Charity = ({
             width={600}
             height={300}
             alt="snake"
-            className="absolute max-w-[200%]"
+            className="absolute max-w-[150%]"
           />
         </div>
       </div>
@@ -105,11 +106,6 @@ const Charity = ({
         <div className="flex justify-between ">
           <DndContext
             onDragEnd={handleDragEnd}
-            onDragStart={() => {
-              setStyle({
-                cursor: "grabbing",
-              });
-            }}
             modifiers={[restrictToHorizontalAxis]}
           >
             {containers.map((id: string) => (
@@ -121,6 +117,7 @@ const Charity = ({
                 {parent === id ? draggableMarkup : ""}
               </Droppable>
             ))}
+            <DragOverlay modifiers={[restrictToWindowEdges]}></DragOverlay>
           </DndContext>
         </div>
         <div className="flex gap-[5%] -mt-[1%] mobile:mt-[2%] w-full items-center justify-start">
