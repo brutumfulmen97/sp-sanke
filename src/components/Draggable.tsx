@@ -28,17 +28,12 @@ export default function Draggable(props: TDraggableProps) {
     const style = transform
         ? {
               transform: `translate3d(${transform.x}px,0, 0)`,
+              touchAction: "none",
           }
         : undefined;
 
     return (
-        <div
-            ref={setNodeRef}
-            className="touch-none test"
-            style={style}
-            {...listeners}
-            {...attributes}
-        >
+        <div ref={setNodeRef} style={style} {...listeners} {...attributes}>
             <div className="w-full" ref={rectRef}>
                 {props.children}
             </div>
