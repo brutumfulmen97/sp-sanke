@@ -35,18 +35,14 @@ const Charity = ({ title, image, link, id, parent, value }: TCharityProps) => {
 
     const draggableMarkup = (
         <Draggable id={id}>
-            <div
-                className="text-center text-xs font-semibold md:text-md w-full 
-        "
-                style={style}
-            >
-                <div className="relative w-full h-12 grid place-items-center">
+            <div className="draggable-markup" style={style}>
+                <div>
                     <Image
                         src="/sanke.png"
                         width={600}
                         height={300}
                         alt="snake"
-                        className="absolute max-w-[150%]"
+                        className="sled-image"
                     />
                 </div>
             </div>
@@ -66,8 +62,8 @@ const Charity = ({ title, image, link, id, parent, value }: TCharityProps) => {
     }, [total, value]);
 
     return (
-        <div className="w-full relative mt-12">
-            <h2 className="w-full text-end pr-[5%] text-lg mobile:text-4xl md:text-6xl text-[#26C6DA] fontExtraBold">
+        <div className="charity__content">
+            <h2 className="fontExtraBold">
                 {new Intl.NumberFormat("hu-HU", {
                     currency: "HUF",
                     maximumFractionDigits: 0,
@@ -84,42 +80,32 @@ const Charity = ({ title, image, link, id, parent, value }: TCharityProps) => {
                     height: "auto",
                 }}
             />
-            <div className="absolute w-full top-[20%] md:top-[30%] px-[5%]">
-                <div className="flex justify-between ">
+            <div className="charity__content-main">
+                <div className="dnd-context">
                     <DndContext
                         onDragEnd={handleDragEnd}
                         modifiers={[restrictToHorizontalAxis]}
                     >
                         {containers.map((id: string) => (
-                            <Droppable
-                                key={id}
-                                id={id}
-                                className="text-center text-xs md:text-md w-full"
-                            >
+                            <Droppable key={id} id={id} className="droppable">
                                 {parent === id ? draggableMarkup : ""}
                             </Droppable>
                         ))}
                     </DndContext>
                 </div>
-                <div className="flex gap-[5%] -mt-[1%] mobile:mt-[2%] w-full items-center justify-start">
+                <div className="charity__content-main-info">
                     <Image
                         src="/info.png"
                         width={70}
                         height={70}
-                        className="w-[35px] md:w-[70px] cursor-pointer"
                         alt="info"
                         onClick={() => setPopupOpen(true)}
                     />
-                    <a
-                        href={`https://${link}`}
-                        target="_blank"
-                        className="w-[35px] md:w-[70px]"
-                    >
+                    <a href={`https://${link}`} target="_blank">
                         <Image
                             src="/link.png"
                             width={70}
                             height={70}
-                            className="w-[35px] md:w-[70px]"
                             style={{
                                 width: "100%",
                                 height: "auto",
@@ -128,9 +114,7 @@ const Charity = ({ title, image, link, id, parent, value }: TCharityProps) => {
                         />
                     </a>
 
-                    <p className="text-[8px] mobile:text-lg md:text-2xl fontMedium">
-                        {title.toUpperCase()}
-                    </p>
+                    <p className="fontMedium">{title.toUpperCase()}</p>
                 </div>
             </div>
             {popupOpen && (
