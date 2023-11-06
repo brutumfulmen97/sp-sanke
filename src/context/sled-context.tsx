@@ -1,11 +1,6 @@
 import { createContext } from "react";
 
-type SledContextType = {
-    sleds: Sled[];
-    setSleds: (sleds: Sled[]) => void;
-};
-
-export const SledContext = createContext<SledContextType>({
+export const SledContext = createContext<TSledContext>({
     sleds: [],
-    setSleds: (sleds: Sled[]) => {},
+    setSleds: (sleds) => {},
 });

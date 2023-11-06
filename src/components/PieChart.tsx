@@ -7,8 +7,6 @@ export default function PieChart({
     percents: Record<string, string>;
     totals: Record<string, number>;
 }) {
-    // const values = Object.values(data);
-    // console.log(values);
     const chartData = {
         labels: [
             `A: ${percents.charityA}%`,

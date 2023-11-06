@@ -1,11 +1,6 @@
 import { createContext } from "react";
 
-type TotalContextType = {
-    total: number;
-    setTotal: (total: number) => void;
-};
-
-export const TotalContext = createContext<TotalContextType>({
+export const TotalContext = createContext<TTotalContext>({
     total: 0,
-    setTotal: (total: number) => {},
+    setTotal: (total) => {},
 });
