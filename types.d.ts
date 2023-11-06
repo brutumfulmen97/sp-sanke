@@ -1,5 +1,5 @@
 type TSled = {
-    id: number;
+    id: string;
     parent: string;
     value: number;
 };
@@ -8,13 +8,13 @@ type TCharityProps = {
     image: string;
     title: string;
     link: string;
-    id: number;
+    id: string;
     parent: string;
     value: number;
 };
 
 type TDraggableProps = {
-    id: number;
+    id: string;
     children: React.ReactNode;
 };
 

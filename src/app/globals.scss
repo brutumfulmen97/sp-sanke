@@ -176,6 +176,7 @@ main {
                 padding: 0.25rem 0;
                 border-radius: 2rem;
                 font-size: 0.8rem;
+                cursor: pointer;
 
                 @media #{$xs} {
                     font-size: 1rem;
@@ -359,7 +360,13 @@ main {
         }
 
         button {
-            width: 45px !important;
+            width: 35px !important;
+            height: 35px;
+            display: grid;
+            place-items: center;
+            background: transparent;
+            border: none;
+            cursor: pointer;
             position: absolute;
             top: -1rem;
             right: 1rem;

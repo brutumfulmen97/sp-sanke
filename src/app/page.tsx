@@ -6,29 +6,20 @@ import { TotalContext } from "@/context/total-context";
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import Image from "next/image";
+import {
+    CharityImages,
+    CharityLinks,
+    CharityTitles,
+    LandingText,
+} from "@/constants";
+import axios from "axios";
 
-const initialState = [
-    { id: 1, parent: "0", value: 0 },
-    { id: 2, parent: "0", value: 0 },
-    { id: 3, parent: "0", value: 0 },
-    { id: 4, parent: "0", value: 0 },
+const initialState: TSled[] = [
+    { id: "szentistvanzene", parent: "0", value: 0 },
+    { id: "autizmus", parent: "0", value: 0 },
+    { id: "elelmiszerbank", parent: "0", value: 0 },
+    { id: "lampas92", parent: "0", value: 0 },
 ];
-
-const links = [
-    "www.szentistvanzene.hu",
-    "www.autizmus.hu",
-    "www.elelmiszerbank.hu",
-    "www.lampas92.hu",
-];
-
-const titles = [
-    "Szent István Zenei Alapítvány",
-    "Autizmus Alapítvány",
-    "Élelmiszerbank egyesület",
-    "Lámpás 92 Alapítvány",
-];
-
-const images = ["/sneg1.png", "/sneg2.png", "/sneg3.png", "/sneg4.png"];
 
 export default function Home() {
     const [sleds, setSleds] = useState<TSled[]>(initialState);
@@ -45,16 +36,20 @@ export default function Home() {
         };
 
         try {
-            const res = await fetch(API_URL, {
-                method: "POST",
-                body: JSON.stringify(data),
-                headers: {
-                    "Content-Type": "application/json",
+            const res = await axios.post(
+                API_URL,
+                {
+                    data,
                 },
-            });
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
 
             if (res.status === 425) throw new Error("Wait 10 minutes");
-            if (!res.ok) throw new Error("Something went wrong");
+            if (!res.data) throw new Error("Something went wrong");
             setSleds(initialState);
             setTotal(0);
             toast.success("Successfully saved");
@@ -89,29 +84,24 @@ export default function Home() {
                         className="main__content-button"
                         alt="button"
                     />
-                    <p className="fontMedium">
-                        A szánkópályán minden beosztás 250 ezer forintot jelent.
-                        Húzza a szánkókat aszerint. ahogyan Ön osztaná el az
-                        adományt az alapítvanyok között. A kivalasztott
-                        arányokat végül egyesitjük, s ennek megfelelöen osztjuk
-                        szét a felajánlott összeget a négy szervezet között.
-                        Miután végzett, az &quot;Elküldöm&quot; gombra kattintva
-                        véglegesitse döntését.
-                    </p>
+                    <p className="fontMedium">{LandingText}</p>
                     <Toaster />
                     <div className="main__content-container">
                         <TotalContext.Provider value={{ total, setTotal }}>
                             <SledContext.Provider value={{ sleds, setSleds }}>
-                                {sleds.map((sled, idx) => {
+                                {sleds.map(({ id, parent, value }) => {
                                     return (
                                         <Charity
-                                            image={images[idx]}
-                                            title={titles[idx]}
-                                            link={links[idx]}
-                                            id={sled.id}
-                                            parent={sled.parent}
-                                            key={sled.id}
-                                            value={sled.value}
+                                            //@ts-ignore
+                                            image={CharityImages[id]}
+                                            //@ts-ignore
+                                            title={CharityTitles[id]}
+                                            //@ts-ignore
+                                            link={CharityLinks[id]}
+                                            id={id}
+                                            parent={parent}
+                                            key={id}
+                                            value={value}
                                         />
                                     );
                                 })}
