@@ -78,7 +78,9 @@ export default function Home() {
                         height: "auto",
                     }}
                 />
-                <h1 className="fontExtraBoldItalic">AZ AJÁNDÉK KÖZÖS</h1>
+                <h1 className="main-title fontExtraBoldItalic">
+                    AZ AJÁNDÉK KÖZÖS
+                </h1>
                 <div className="main__content">
                     <Image
                         src="/dugme.png"

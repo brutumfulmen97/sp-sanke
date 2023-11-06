@@ -118,10 +118,9 @@ const Charity = ({ title, image, link, id, parent, value }: TCharityProps) => {
                 </div>
             </div>
             {popupOpen && (
-                <div className="fixed w-[100%] h-screen left-0 top-0 z-30">
-                    <div className="fixed z-30 left-1/2 top-[10vh] -translate-x-[50%] w-[90vw] max-w-[900px] min-h-[70vh] md:min-h-[50vh] bg-[#06283ed9]   rounded-lg p-6 mobile:p-12 text-white">
+                <div className="popup">
+                    <div className="popup__content">
                         <button
-                            className="absolute right-4 top-4"
                             onClick={() => {
                                 setPopupOpen(false);
                             }}
@@ -133,9 +132,7 @@ const Charity = ({ title, image, link, id, parent, value }: TCharityProps) => {
                                 alt="close btn"
                             />
                         </button>
-                        <h1 className="text-3xl text-center mb-4 fontBold">
-                            {title.toUpperCase()}
-                        </h1>
+                        <h1 className="fontBold">{title.toUpperCase()}</h1>
                         <p className="fontMedium text-sm mobile:text-lg">
                             {popupTexts[id - 1]}
                         </p>
