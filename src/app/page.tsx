@@ -65,8 +65,8 @@ export default function Home() {
     }
 
     return (
-        <div className="w-full max-w-[100%] h-full flex items-center justify-center">
-            <main className="w-full h-full pb-4 tablet:shadow tablet:mt-12 tablet:mb-12 border-black max-w-[960px]">
+        <div className="container">
+            <main>
                 <Image
                     src={"/bgImage.png"}
                     width={1920}
@@ -78,10 +78,10 @@ export default function Home() {
                         height: "auto",
                     }}
                 />
-                <h1 className="absolute left-[50%] -translate-x-[50%] top-[3%] tablet:top-[12%] z-10 boldItalic text-lg mobile:text-3xl tablet:text-6xl text-center text-[#13647A]">
+                <h1 className="absolute left-[50%] -translate-x-[50%] top-[3%] tablet:top-[12%] z-10 fontExtraBoldItalic text-lg mobile:text-3xl tablet:text-6xl text-center text-[#13647A]">
                     AZ AJÁNDÉK KÖZÖS
                 </h1>
-                <div className="absolute left-[50%] -translate-x-[50%] px-2 w-full max-w-[960px] inset-0 mt-[55%] tablet:mt-[600px] flex flex-col items-center justify-start ">
+                <div className="absolute left-[50%] -translate-x-[50%] px-2 w-full max-w-[960px] inset-0 mt-[55%] tablet:mt-[600px] flex flex-col items-center justify-start main__content">
                     <Image
                         src="/dugme.png"
                         width={300}
@@ -89,9 +89,9 @@ export default function Home() {
                         style={{
                             width: "40%",
                         }}
-                        alt="dugme"
+                        alt="button"
                     />
-                    <p className="title px-4 text-lg text-center mt-4">
+                    <p className="fontMedium px-4 text-lg text-center mt-4">
                         A szánkópályán minden beosztás 250 ezer forintot jelent.
                         Húzza a szánkókat aszerint. ahogyan Ön osztaná el az
                         adományt az alapítvanyok között. A kivalasztott
@@ -125,12 +125,12 @@ export default function Home() {
                                             setTotal(0);
                                         }}
                                         disabled={total === 0}
-                                        className="w-full py-1 md:py-2 bg-[#e3f6fc] border-[3px] border-[#78909c] text-[#78909c] rounded-full button text-sm md:text-2xl"
+                                        className="w-full py-1 md:py-2 bg-[#e3f6fc] border-[3px] border-[#78909c] text-[#78909c] rounded-full fontBold text-sm md:text-2xl main__content-container-button-back "
                                     >
                                         VISSZAÁLLÍTÁS
                                     </button>
                                     <button
-                                        className="w-full py-1 md:py-2 bg-[#14A351] disabled:bg-[#8caab5] border-[3px] border-white rounded-full text-white button text-sm md:text-2xl"
+                                        className="w-full py-1 md:py-2 bg-[#14A351] disabled:bg-[#8caab5] border-[3px] border-white rounded-full text-white fontBold text-sm md:text-2xl main__content-container-button-save"
                                         onClick={handleSubmit}
                                         disabled={total < 3_000_000}
                                     >

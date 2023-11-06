@@ -67,12 +67,12 @@ const Charity = ({ title, image, link, id, parent, value }: TCharityProps) => {
 
     return (
         <div className="w-full relative mt-12">
-            <h2 className="w-full text-end pr-[5%] text-lg mobile:text-4xl md:text-6xl text-[#26C6DA] value">
+            <h2 className="w-full text-end pr-[5%] text-lg mobile:text-4xl md:text-6xl text-[#26C6DA] fontExtraBold">
                 {new Intl.NumberFormat("hu-HU", {
                     currency: "HUF",
                     maximumFractionDigits: 0,
                 }).format(+parent * 250000)}{" "}
-                <span className="ft">Ft</span>
+                <span className="fontDemiBoldItalic">Ft</span>
             </h2>
             <Image
                 src={image}
@@ -128,7 +128,7 @@ const Charity = ({ title, image, link, id, parent, value }: TCharityProps) => {
                         />
                     </a>
 
-                    <p className="text-[8px] mobile:text-lg md:text-2xl title">
+                    <p className="text-[8px] mobile:text-lg md:text-2xl fontMedium">
                         {title.toUpperCase()}
                     </p>
                 </div>
@@ -149,10 +149,10 @@ const Charity = ({ title, image, link, id, parent, value }: TCharityProps) => {
                                 alt="close btn"
                             />
                         </button>
-                        <h1 className="text-3xl text-center mb-4 button">
+                        <h1 className="text-3xl text-center mb-4 fontBold">
                             {title.toUpperCase()}
                         </h1>
-                        <p className="title text-sm mobile:text-lg">
+                        <p className="fontMedium text-sm mobile:text-lg">
                             {popupTexts[id - 1]}
                         </p>
                     </div>

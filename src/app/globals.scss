@@ -2,12 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url("//hello.myfonts.net/count/31b299");
+$mobile: "only screen and (min-width: 450px)";
+$sm: "only screen and (min-width: 640px)";
+$md: "only screen and (min-width: 768px)";
+$tablet: "only screen and (min-width: 960px)";
+$lg: "only screen and (min-width: 1024px)";
+$xl: "only screen and (min-width: 1280px)";
+$xxl: "only screen and (min-width: 1536px)";
 
-@font-face {
-    font-family: "Planer-ExtraLightItalic";
-    src: url("/webfonts/31B299_0_0.ttf") format("truetype");
-}
+@import url("//hello.myfonts.net/count/31b299");
 
 @font-face {
     font-family: "Planer-ExtraBold";
@@ -20,23 +23,8 @@
 }
 
 @font-face {
-    font-family: "Planer-ExtraLight";
-    src: url("/webfonts/31B299_3_0.ttf") format("truetype");
-}
-
-@font-face {
     font-family: "Planer-Bold";
     src: url("/webfonts/31B299_4_0.ttf") format("truetype");
-}
-
-@font-face {
-    font-family: "Planer-Regular";
-    src: url("/webfonts/31B299_5_0.ttf") format("truetype");
-}
-
-@font-face {
-    font-family: "Planer-Light";
-    src: url("/webfonts/31B299_6_0.ttf") format("truetype");
 }
 
 @font-face {
@@ -45,52 +33,27 @@
 }
 
 @font-face {
-    font-family: "Planer-LightItalic";
-    src: url("/webfonts/31B299_8_0.ttf") format("truetype");
-}
-
-@font-face {
-    font-family: "Planer-Italic";
-    src: url("/webfonts/31B299_9_0.ttf") format("truetype");
-}
-
-@font-face {
-    font-family: "Planer-BoldItalic";
-    src: url("/webfonts/31B299_A_0.ttf") format("truetype");
-}
-
-@font-face {
-    font-family: "Planer-DemiBold";
-    src: url("/webfonts/31B299_B_0.ttf") format("truetype");
-}
-
-@font-face {
     font-family: "Planer-DemiBoldItalic";
     src: url("/webfonts/31B299_C_0.ttf") format("truetype");
 }
 
-@font-face {
-    font-family: "Planer-MediumItalic";
-    src: url("/webfonts/31B299_D_0.ttf") format("truetype");
-}
-
-.title {
+.fontMedium {
     font-family: "Planer-Medium";
 }
 
-.button {
+.fontBold {
     font-family: "Planer-Bold";
 }
 
-.ft {
+.fontDemiBoldItalic {
     font-family: "Planer-DemiBoldItalic";
 }
 
-.value {
+.fontExtraBold {
     font-family: "Planer-ExtraBold";
 }
 
-.boldItalic {
+.fontExtraBoldItalic {
     font-family: "Planer-ExtraBoldItalic";
 }
 
@@ -109,4 +72,91 @@ body {
 td,
 th {
     border: 1px solid black;
+}
+
+.container {
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    //tablet shadow mt-12 mb-12
+}
+
+main {
+    width: 100%;
+    max-width: 960px;
+    height: 100%;
+    padding-bottom: 2rem;
+    margin-top: 2rem;
+
+    h1 {
+        position: absolute;
+        left: 50%;
+        top: 3%;
+        transform: translateX(-50%);
+        z-index: 10;
+        text-align: center;
+        color: #13647a;
+    }
+
+    .main__content {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        padding-inline: 0.5rem;
+        width: 100%;
+        max-width: 960px;
+        margin-top: 55%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: start;
+
+        p {
+            padding-inline: 1rem;
+            font-size: 1.2rem;
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .main__content-container {
+            width: 100%;
+            height: 100%;
+            margin-bottom: 6rem;
+
+            div {
+                width: 100%;
+                padding-inline: 3rem;
+                margin-top: 3rem;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 3rem;
+            }
+            button {
+                width: 100%;
+                padding: 0.25rem 0;
+                border-radius: 50%;
+                font-size: 0.8rem;
+            }
+            .main__content-container-button-back {
+                background: #e3f6fc;
+                border: 3px solid #78909c;
+                color: #78909c;
+            }
+
+            .main__content-container-button-save {
+                background: #14a351;
+                border: 3px solid white;
+                color: white;
+
+                &:disabled {
+                    background: #8caab5;
+                }
+            }
+        }
+    }
 }
