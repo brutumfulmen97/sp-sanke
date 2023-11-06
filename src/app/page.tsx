@@ -116,19 +116,19 @@ export default function Home() {
                                     );
                                 })}
 
-                                <div className="main__content-container-buttons fontExtraBold">
+                                <div className="main__content-container-buttons">
                                     <button
                                         onClick={() => {
                                             setSleds(initialState);
                                             setTotal(0);
                                         }}
                                         disabled={total === 0}
-                                        className="main__content-container-button-back "
+                                        className="main__content-container-button-back  fontExtraBold"
                                     >
                                         VISSZAÁLLÍTÁS
                                     </button>
                                     <button
-                                        className="main__content-container-button-save"
+                                        className="main__content-container-button-save  fontExtraBold"
                                         onClick={handleSubmit}
                                         disabled={total < 3_000_000}
                                     >
