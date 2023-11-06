@@ -1,32 +1,27 @@
-export const Charities = {
-    "1": "szentistvanzene",
-    "2": "autizmus",
-    "3": "elelmiszerbank",
-    "4": "lampas92",
-};
+type TCharityContent = { [key: string]: string };
 
-export const CharityLinks = {
+export const CharityLinks: TCharityContent = {
     szentistvanzene: "https://www.szentistvanzene.hu/",
     autizmus: "https://autizmus.hu/",
     elelmiszerbank: "https://elelmiszerbank.hu/",
     lampas92: "https://lampas92.hu/",
 };
 
-export const CharityTitles = {
+export const CharityTitles: TCharityContent = {
     szentistvanzene: "Szent István Zenei Alapítvány",
     autizmus: "Autizmus Alapítvány",
     elelmiszerbank: "Élelmiszerbank egyesület",
     lampas92: "Lámpás '92 Alapítvány",
 };
 
-export const CharityImages = {
+export const CharityImages: TCharityContent = {
     szentistvanzene: "/sneg1.png",
     autizmus: "/sneg2.png",
     elelmiszerbank: "/sneg3.png",
     lampas92: "/sneg4.png",
 };
 
-export const CharityPopupTexts = {
+export const CharityPopupTexts: TCharityContent = {
     szentistvanzene: `Az idei támogatást a Szent István Filharmonikusok Felfedezőúton címmel néhány éve elindított, egyedi szerkesztésű ifjúsági előadás-sorozatára szeretnénk fordítani. 45 perces műsorunkat általános iskolákba visszük el, ahol a diákok iskolaidőben, ingyenesen tekinthetik meg.
 
     2023-ban Petőfi évforduló lesz, az ő költészetére építve mutatunk be tavasszal az alsótagozatos és óvodás korosztály számára egy vetítéssel, tánccal egybekötött, magával ragadó művészeti programot, amit Budapest minél több kerületére szeretnénk kiterjeszteni. Köszönjük az ifjúság művészeti nevelésére adott szavazataikat!`,

@@ -118,7 +118,6 @@ const Charity = ({ title, image, link, id, parent, value }: TCharityProps) => {
                         </button>
                         <h1 className="fontBold">{title.toUpperCase()}</h1>
                         <p className="fontMedium text-sm mobile:text-lg">
-                            {/* @ts-ignore */}
                             {CharityPopupTexts[id]}
                         </p>
                     </div>

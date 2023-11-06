@@ -92,11 +92,8 @@ export default function Home() {
                                 {sleds.map(({ id, parent, value }) => {
                                     return (
                                         <Charity
-                                            //@ts-ignore
                                             image={CharityImages[id]}
-                                            //@ts-ignore
                                             title={CharityTitles[id]}
-                                            //@ts-ignore
                                             link={CharityLinks[id]}
                                             id={id}
                                             parent={parent}
