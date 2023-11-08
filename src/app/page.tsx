@@ -11,15 +11,15 @@ import {
     CharityLinks,
     CharityTitles,
     LandingText,
+    charityNames,
 } from "@/constants";
 import axios from "axios";
 
-const initialState: TSled[] = [
-    { id: "szentistvanzene", parent: "0", value: 0 },
-    { id: "autizmus", parent: "0", value: 0 },
-    { id: "elelmiszerbank", parent: "0", value: 0 },
-    { id: "lampas92", parent: "0", value: 0 },
-];
+const initialState: TSled[] = Object.values(charityNames).map((name) => ({
+    id: name,
+    parent: "0",
+    value: 0,
+}));
 
 export default function Home() {
     const [sleds, setSleds] = useState<TSled[]>(initialState);
@@ -28,16 +28,24 @@ export default function Home() {
     async function handleSubmit() {
         if (total < 3_000_000) return toast.error("Total must be 3 000 000 Ft");
 
-        const data = {
-            charityA: sleds[0].value,
-            charityB: sleds[1].value,
-            charityC: sleds[2].value,
-            charityD: sleds[3].value,
-        };
+        const data = Object.values(charityNames).reduce(
+            (acc, curr) => ({
+                ...acc,
+                [curr]: sleds.find((sled) => sled.id === curr)?.value,
+            }),
+            {}
+        );
+
+        console.log(process.env.NODE_ENV);
+        let API_URL;
+        if (process.env.NODE_ENV === "development")
+            API_URL = API_URL_DEVELOPMENT;
+        if (process.env.NODE_ENV === "test") API_URL = API_URL_STAGING;
+        if (process.env.NODE_ENV === "production") API_URL = API_URL_PRODUCTION;
 
         try {
             const res = await axios.post(
-                API_URL,
+                API_URL!,
                 {
                     data,
                 },

@@ -34,4 +34,6 @@ type TTotalContext = {
     setTotal: (total: number) => void;
 };
 
-const API_URL = "/api/url";
+const API_URL_DEVELOPMENT = "/api/sheets";
+const API_URL_STAGING = "/giveaway";
+const API_URL_PRODUCTION = "/giveaway";

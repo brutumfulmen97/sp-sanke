@@ -1,9 +1,16 @@
 type TCharityContent = { [key: string]: string };
 
+export const charityNames = {
+    autizmus: "autizmus",
+    szentistvanzene: "szentistvanzene",
+    lampas92: "lampas92",
+    elelmiszerbank: "elelmiszerbank",
+};
+
 export const CharityLinks: TCharityContent = {
     szentistvanzene: "https://www.szentistvanzene.hu/",
-    autizmus: "https://autizmus.hu/",
     elelmiszerbank: "https://elelmiszerbank.hu/",
+    autizmus: "https://autizmus.hu/",
     lampas92: "https://lampas92.hu/",
 };
 
@@ -38,5 +45,5 @@ export const LandingText = `A szánkópályán minden beosztás 250 ezer forinto
                         adományt az alapítvanyok között. A kivalasztott
                         arányokat végül egyesitjük, s ennek megfelelöen osztjuk
                         szét a felajánlott összeget a négy szervezet között.
-                        Miután végzett, az &quot;Elküldöm&quot; gombra kattintva
+                        Miután végzett, az "Elküldöm" gombra kattintva
                         véglegesitse döntését.`;
