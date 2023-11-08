@@ -34,6 +34,8 @@ type TTotalContext = {
     setTotal: (total: number) => void;
 };
 
+type TDataToSubmit = Record<string, number> & { ip?: string };
+
 const API_URL_DEVELOPMENT = "/api/sheets";
 const API_URL_STAGING = "/giveaway";
 const API_URL_PRODUCTION = "/giveaway";

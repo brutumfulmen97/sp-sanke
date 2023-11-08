@@ -47,3 +47,8 @@ export const LandingText = `A szánkópályán minden beosztás 250 ezer forinto
                         szét a felajánlott összeget a négy szervezet között.
                         Miután végzett, az "Elküldöm" gombra kattintva
                         véglegesitse döntését.`;
+
+export const SuccessText = `Köszönjük, hogy részt vett a szavazáson! A szavazatokat
+                        összesítjük, s a felajánlott összeget az arányoknak
+                        megfelelöen osztjuk szét a négy szervezet között.
+                        Az eredményröl e-mailben értesítjük.`;

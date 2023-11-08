@@ -142,6 +142,7 @@ main {
         .main__content-button {
             width: 50%;
             max-width: 400px;
+            height: auto;
         }
 
         p {
@@ -340,12 +341,19 @@ main {
     top: 0;
     z-index: 30;
 
+    .flex {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+    }
+
     .popup__content {
         position: fixed;
         left: 50% !important;
-        top: 50% !important;
+        top: 10vh !important;
         margin-top: 200px;
-        transform: translate(-50%, -50%);
+        transform: translateX(-50%);
         top: 10vh;
         width: 90vw;
         max-width: 900px;
@@ -362,7 +370,20 @@ main {
             min-height: 50vh;
         }
 
-        button {
+        .popup__content-home-btn {
+            background: white;
+
+            &:hover {
+                background: #e3f6fc;
+            }
+
+            a {
+                text-decoration: none;
+                color: #06283e;
+            }
+        }
+
+        .popup__content-close-btn {
             width: 35px !important;
             height: 35px;
             display: grid;

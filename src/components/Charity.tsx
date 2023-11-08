@@ -105,6 +105,7 @@ const Charity = ({ title, image, link, id, parent, value }: TCharityProps) => {
                 <div className="popup">
                     <div className="popup__content">
                         <button
+                            className="popup__content-close-btn"
                             onClick={() => {
                                 setPopupOpen(false);
                             }}

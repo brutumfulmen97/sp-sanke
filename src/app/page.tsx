@@ -24,11 +24,13 @@ const initialState: TSled[] = Object.values(charityNames).map((name) => ({
 export default function Home() {
     const [sleds, setSleds] = useState<TSled[]>(initialState);
     const [total, setTotal] = useState<number>(0);
+    const [popupOpen, setPopupOpen] = useState<boolean>(false);
+    const [variant, setVariant] = useState<"success" | "error">("success");
 
     async function handleSubmit() {
         if (total < 3_000_000) return toast.error("Total must be 3 000 000 Ft");
 
-        const data = Object.values(charityNames).reduce(
+        const data: TDataToSubmit = Object.values(charityNames).reduce(
             (acc, curr) => ({
                 ...acc,
                 [curr]: sleds.find((sled) => sled.id === curr)?.value,
@@ -36,7 +38,15 @@ export default function Home() {
             {}
         );
 
-        console.log(process.env.NODE_ENV);
+        const res = await axios.get("https://api.ipify.org?format=json");
+        const { ip } = res.data;
+        data.ip = ip;
+
+        setPopupOpen(true);
+        setVariant("error");
+
+        return;
+
         let API_URL;
         if (process.env.NODE_ENV === "development")
             API_URL = API_URL_DEVELOPMENT;
@@ -56,13 +66,19 @@ export default function Home() {
                 }
             );
 
-            if (res.status === 425) throw new Error("Wait 10 minutes");
+            if (res.status === 425) {
+                setPopupOpen(true);
+                setVariant("error");
+                throw new Error("You have already submitted");
+            }
             if (!res.data) throw new Error("Something went wrong");
+            if (res.status === 200) {
+                setPopupOpen(true);
+                setVariant("success");
+            }
             setSleds(initialState);
             setTotal(0);
-            toast.success("Successfully saved");
         } catch (e: any) {
-            toast.error(e.message);
             console.log(e.message);
         }
     }
@@ -112,6 +128,64 @@ export default function Home() {
                                 })}
 
                                 <div className="main__content-container-buttons">
+                                    {popupOpen ? (
+                                        <div className="popup">
+                                            <div className="popup__content flex">
+                                                <button
+                                                    className="popup__content-close-btn"
+                                                    onClick={() => {
+                                                        setPopupOpen(false);
+                                                    }}
+                                                >
+                                                    <Image
+                                                        src="/closeBtn.png"
+                                                        width={35}
+                                                        height={35}
+                                                        alt="close btn"
+                                                    />
+                                                </button>
+                                                {variant === "success" ? (
+                                                    <>
+                                                        <h1 className="popup__title fontExtraBold">
+                                                            KÖSZÖNJÜK!
+                                                        </h1>
+                                                        <p className="fontMedium">
+                                                            Köszönjük, hogy
+                                                            segíted a
+                                                            rászorulókat!
+                                                        </p>
+                                                        <button className="popup__content-home-btn">
+                                                            <a
+                                                                href="https://www.nexon.hu/"
+                                                                className="fontExtraBold"
+                                                            >
+                                                                HOME
+                                                            </a>
+                                                        </button>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <h1 className="popup__title fontExtraBold">
+                                                            MÁR KÜLDÖTTÉL!
+                                                        </h1>
+                                                        <p className="fontMedium">
+                                                            Wait 10 minutes
+                                                            before sending
+                                                            again!
+                                                        </p>
+                                                        <button className="popup__content-home-btn">
+                                                            <a
+                                                                href="https://www.nexon.hu/"
+                                                                className="fontExtraBold"
+                                                            >
+                                                                HOME
+                                                            </a>
+                                                        </button>
+                                                    </>
+                                                )}
+                                            </div>
+                                        </div>
+                                    ) : null}
                                     <button
                                         onClick={() => {
                                             setSleds(initialState);
