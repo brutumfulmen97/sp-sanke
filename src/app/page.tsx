@@ -4,7 +4,6 @@ import Charity from "@/components/Charity";
 import { SledContext } from "@/context/sled-context";
 import { TotalContext } from "@/context/total-context";
 import { useState } from "react";
-import toast, { Toaster } from "react-hot-toast";
 import Image from "next/image";
 import {
     CharityImages,
@@ -28,8 +27,6 @@ export default function Home() {
     const [variant, setVariant] = useState<"success" | "error">("success");
 
     async function handleSubmit() {
-        if (total < 3_000_000) return toast.error("Total must be 3 000 000 Ft");
-
         const data: TDataToSubmit = Object.values(charityNames).reduce(
             (acc, curr) => ({
                 ...acc,
@@ -41,11 +38,6 @@ export default function Home() {
         const res = await axios.get("https://api.ipify.org?format=json");
         const { ip } = res.data;
         data.ip = ip;
-
-        setPopupOpen(true);
-        setVariant("error");
-
-        return;
 
         let API_URL;
         if (process.env.NODE_ENV === "development")
@@ -109,7 +101,6 @@ export default function Home() {
                         alt="button"
                     />
                     <p className="fontMedium">{LandingText}</p>
-                    <Toaster />
                     <div className="main__content-container">
                         <TotalContext.Provider value={{ total, setTotal }}>
                             <SledContext.Provider value={{ sleds, setSleds }}>
