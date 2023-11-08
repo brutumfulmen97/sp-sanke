@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.scss";
-import Providers from "@/components/Provider";
 
 export const metadata: Metadata = {
     title: "Nexon",
@@ -14,9 +13,7 @@ export default function RootLayout({
 }) {
     return (
         <html lang="en">
-            <body>
-                <Providers>{children}</Providers>
-            </body>
+            <body>{children}</body>
         </html>
     );
 }
